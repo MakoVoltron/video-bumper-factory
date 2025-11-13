@@ -52,7 +52,7 @@ const Testimonial = ({ name, title, company, text }: TestimonialProps) => (
     <p className="text-gray-200">
       {title} {company && "at"} {company}
     </p>
-    <p className="text-center">{text}</p>
+    <p className="text-center h-18">{text}</p>
   </div>
 );
 
@@ -78,13 +78,13 @@ const SocialProofBanner = () => {
   }, [paused]);
 
   return (
-    <div className="text-white w-full flex flex-col justify-center items-center max-w-2xl gap-3 mb-3">
+    <div className="text-white flex flex-col justify-center items-center max-w-2xl gap-3 mb-3">
       <div className="font-bold uppercase text-gray-600">
         Loved by hundreds who hate waiting
       </div>
       <div>
         <div
-          className={`flex justify-center items-center h-16
+          className={`flex justify-center items-center h-16 mb-2
           }`}
           style={{ transform: `translateX(${-10 * data.length}px)` }}
         >

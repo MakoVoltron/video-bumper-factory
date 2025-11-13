@@ -1,11 +1,10 @@
-"use client";
-
 import Image from "next/image";
 import hero from "@/public/images/hero.jpg";
 
 const Hero = () => {
   return (
-    <div className="relative w-full h-2/3 flex items-center">
+    <section className="relative w-full h-3/5  bg-green-100 flex items-center justify-center">
+      {/* Background image */}
       <Image
         src={hero}
         alt="hero image background"
@@ -14,8 +13,12 @@ const Hero = () => {
         loading="eager"
         placeholder="blur"
       />
-      <div className="absolute bg-black/85 w-full h-full top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex items-center ">
-        <div className="flex flex-col space-y-5 w-3xl p-5 m-auto">
+      {/* Overlay */}
+      <div className="absolute inset-0 bg-black/85" />
+
+      {/* Content */}
+      <div className="relative ">
+        <div className="flex flex-col space-y-4 w-4xl m-auto p-10 ">
           <div>
             <p className="font-bold bg-purple-950  text-purple-400 inline py-1 px-3 rounded-xl">
               Professional Logo Animation Service
@@ -42,7 +45,7 @@ const Hero = () => {
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 
