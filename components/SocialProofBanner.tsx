@@ -1,42 +1,8 @@
 "use client";
 
+import { testimonialData } from "@/app/data";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
-
-const data = [
-  {
-    id: 0,
-    name: "Mia Lux",
-    profile: "/testimonials/Mia Lux_profile.jpg",
-    title: "Digital Creator",
-    company: "",
-    text: "Above and beyond expectations. Improved my overall design and created a fantastic bumper that captured the feel I was looking for. Quick and professional to boot!",
-  },
-  {
-    id: 1,
-    name: "Will Hinkson",
-    profile: "/testimonials/Will Hinkson_profile.jpg",
-    title: "Sales Strategist",
-    company: "Force Blue",
-    text: "Great service. Highly recommended and quick turnaround time!",
-  },
-  {
-    id: 2,
-    name: "Jim Wendt",
-    profile: "/testimonials/Jim Wendt_profile.jpg",
-    title: "Marketing Expert",
-    company: "",
-    text: "VBF exceeded my expectations. Very easy to work with. These video bumpers will play a key part of our new branding roll out. Can't wait to slap these on some video clips. Well done Video Bumper Factory!",
-  },
-  {
-    id: 3,
-    name: "Ikmal Ezzani",
-    profile: "/testimonials/Ikmal Ezzani_profile.jpg",
-    title: "Shared Workshop Owner",
-    company: "",
-    text: "I'm so pleased with our video bumper for our build videos. It was made very promptly and yet so awesome. Really pleased to have your work with us. Thank you!",
-  },
-];
 
 type TestimonialProps = {
   id: number;
@@ -47,12 +13,12 @@ type TestimonialProps = {
 };
 
 const Testimonial = ({ name, title, company, text }: TestimonialProps) => (
-  <div className="flex flex-col items-center justify-center">
+  <div className="flex flex-col items-center justify-center p-3">
     <h3 className="font-bold text-xl">{name}</h3>
-    <p className="text-gray-200">
+    <p className="text-gray-400">
       {title} {company && "at"} {company}
     </p>
-    <p className="text-center h-18">{text}</p>
+    <p className="text-center h-18 text-sm sm:text-base">{text}</p>
   </div>
 );
 
@@ -65,13 +31,15 @@ const SocialProofBanner = () => {
     setPaused(true);
   };
 
-  const selectedTestimonial = data.find((profile) => profile.id === hovered);
+  const selectedTestimonial = testimonialData.find(
+    (profile) => profile.id === hovered
+  );
 
   useEffect(() => {
     if (paused) return;
 
     const interval = setInterval(() => {
-      setHovered((prev) => (prev + 1) % data.length);
+      setHovered((prev) => (prev + 1) % testimonialData.length);
     }, 3000); // every 3 seconds
 
     return () => clearInterval(interval);
@@ -86,24 +54,24 @@ const SocialProofBanner = () => {
         <div
           className={`flex justify-center items-center h-16 mb-2
           }`}
-          style={{ transform: `translateX(${-10 * data.length}px)` }}
+          style={{ transform: `translateX(${-10 * testimonialData.length}px)` }}
         >
-          {data.map((img, index) => (
+          {testimonialData.map((img, index) => (
             <Image
               key={index}
               src={img.profile}
               data-id={String(img.id)}
               width={60}
               height={60}
-              className={`object-fit rounded-full absolute transition duration-600 cursor-pointer ${
+              className={`object-fit rounded-full absolute transition duration-600 cursor-pointer origin-center ${
                 hovered === img.id
-                  ? "z-100 grayscale-0 -translate-y-0.5"
+                  ? "z-100 grayscale-0 -translate-y-1"
                   : "z-10 grayscale"
               }`}
               alt={`profile picture of ${img.name}`}
               style={{
                 transform: `translateX(${index * 30}px)`,
-                zIndex: `${50 - index}`,
+                // zIndex: `${50 - index}`,
               }}
               onMouseEnter={handleHover}
               onMouseLeave={() => setPaused(false)}

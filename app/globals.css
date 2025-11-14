@@ -31,6 +31,10 @@ body {
   font-family: Helvetica, sans-serif;
 }
 
+.text-accent-color {
+  @apply text-purple-600;
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;

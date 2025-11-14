@@ -3,7 +3,7 @@ import hero from "@/public/images/hero.jpg";
 
 const Hero = () => {
   return (
-    <section className="relative w-full h-3/5  bg-green-100 flex items-center justify-center">
+    <section className="relative w-full sm:h-3/5  flex items-center justify-center">
       {/* Background image */}
       <Image
         src={hero}
@@ -18,20 +18,21 @@ const Hero = () => {
 
       {/* Content */}
       <div className="relative ">
-        <div className="flex flex-col space-y-4 w-4xl m-auto p-10 ">
+        <div className="flex flex-col space-y-4 max-w-4xl m-auto p-10 ">
           <div>
-            <p className="font-bold bg-purple-950  text-purple-400 inline py-1 px-3 rounded-xl">
+            <p className="font-bold bg-purple-950 text-sm sm:text-base text-purple-400 inline py-1 px-3 rounded-xl">
               Professional Logo Animation Service
             </p>
           </div>
-          <h1 className="font-headline text-5xl">
+          <h1 className="font-headline text-3xl sm:text-5xl">
             Elevate Your Video Content With{" "}
             <span className="text-purple-600">Animated Logo Bumpers</span>
           </h1>
-          <p className="text-xl">
-            Send us your logo, and in 24 hours it’s animated and scroll-ready
-            for TikTok, YouTube, and Reels. Real humans, real speed—no AI
-            shortcuts, just a brand that moves and sticks.
+          <p className="text-md sm:text-xl">
+            Send us your logo, and within 48 hours we&apos;ll send it back
+            animated and scroll-ready for TikTok, YouTube, and Reels. Real
+            humans, real speed—no AI shortcuts, just a brand that moves and
+            sticks.
           </p>
           {/* <div>
               <span className="font-bold bg-purple-950  text-purple-400 py-1 px-3 rounded-xl">
