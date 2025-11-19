@@ -1,8 +1,9 @@
 "use client";
 
 import Video from "./ui/Video";
+import { FILTER_TYPE } from "@/app/data";
 
-type Category = "logoVertical";
+type Category = typeof FILTER_TYPE.VERTICAL;
 
 export type TemplateProp = {
   id: number;

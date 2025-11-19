@@ -54,40 +54,45 @@ export const testimonialData = [
   },
 ];
 
+export const FILTER_TYPE = {
+  VERTICAL: "vertical",
+  HORIZONTAL: "horizontal",
+};
+
 export const templates: TemplateProp[] = [
   {
     id: 0,
     name: "01",
     poster: "/preview/01_thumbnail.jpg",
     preview: "/preview/01_preview.mp4",
-    category: "logoVertical",
+    category: FILTER_TYPE.VERTICAL,
   },
   {
     id: 1,
     name: "01",
     poster: "/preview/01_thumbnail.jpg",
     preview: "/preview/01_preview.mp4",
-    category: "logoVertical",
+    category: FILTER_TYPE.VERTICAL,
   },
   {
     id: 2,
     name: "01",
     poster: "/preview/01_thumbnail.jpg",
     preview: "/preview/01_preview.mp4",
-    category: "logoVertical",
+    category: FILTER_TYPE.VERTICAL,
   },
   {
     id: 3,
     name: "01",
     poster: "/preview/01_thumbnail.jpg",
     preview: "/preview/01_preview.mp4",
-    category: "logoVertical",
+    category: FILTER_TYPE.VERTICAL,
   },
   {
     id: 4,
     name: "01",
     poster: "/preview/01_thumbnail.jpg",
     preview: "/preview/01_preview.mp4",
-    category: "logoVertical",
+    category: FILTER_TYPE.VERTICAL,
   },
 ];

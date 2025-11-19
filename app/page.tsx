@@ -11,6 +11,7 @@ import Grid from "@/components/util/Grid";
 import Button from "@/components/ui/Button";
 
 import TemplateGrid from "@/components/TemplateGrid";
+import Filters from "@/components/Filters";
 
 export default function Home() {
   return (
@@ -40,6 +41,7 @@ export default function Home() {
         </InnerSection>
       </Section>
       <Section>
+        <Filters />
         <TemplateGrid templates={templates} />
       </Section>
     </>
