@@ -1,9 +1,10 @@
+import { TemplateProp } from "@/components/TemplateGrid";
 import { TimerIcon, BotOffIcon, TagIcon } from "lucide-react";
 
 export const featuresData = [
   {
     title: "Swanky fast",
-    text: "Your bumper gets ready within 48h since order - or it's on us!",
+    text: "Your bumper gets ready within 48h since confirmed order - or it's on us!",
     icon: TimerIcon,
   },
   {
@@ -50,5 +51,43 @@ export const testimonialData = [
     title: "Shared Workshop Owner",
     company: "",
     text: "I'm so pleased with our video bumper for our build videos. It was made very promptly and yet so awesome. Really pleased to have your work with us. Thank you!",
+  },
+];
+
+export const templates: TemplateProp[] = [
+  {
+    id: 0,
+    name: "01",
+    poster: "/preview/01_thumbnail.jpg",
+    preview: "/preview/01_preview.mp4",
+    category: "logoVertical",
+  },
+  {
+    id: 1,
+    name: "01",
+    poster: "/preview/01_thumbnail.jpg",
+    preview: "/preview/01_preview.mp4",
+    category: "logoVertical",
+  },
+  {
+    id: 2,
+    name: "01",
+    poster: "/preview/01_thumbnail.jpg",
+    preview: "/preview/01_preview.mp4",
+    category: "logoVertical",
+  },
+  {
+    id: 3,
+    name: "01",
+    poster: "/preview/01_thumbnail.jpg",
+    preview: "/preview/01_preview.mp4",
+    category: "logoVertical",
+  },
+  {
+    id: 4,
+    name: "01",
+    poster: "/preview/01_thumbnail.jpg",
+    preview: "/preview/01_preview.mp4",
+    category: "logoVertical",
   },
 ];

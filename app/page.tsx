@@ -6,7 +6,11 @@ import InnerSection from "@/components/util/InnerSection";
 import Section from "@/components/util/Section";
 import ArrowIconTriangle from "@/icons/ArrowIconTriangle";
 
-import { featuresData } from "./data";
+import { featuresData, templates } from "./data";
+import Grid from "@/components/util/Grid";
+import Button from "@/components/ui/Button";
+
+import TemplateGrid from "@/components/TemplateGrid";
 
 export default function Home() {
   return (
@@ -19,20 +23,24 @@ export default function Home() {
           target="what-we-do"
         />
       </Section>
-
       <Section
         id="what-we-do"
         className="bg-linear-to-b from-black via-purple-950/50 to-black"
       >
         <InnerSection>
           <SectionTitle />
-
-          <div className="grid grid-cols-12  w-full gap-3">
+          <Grid>
             {featuresData.map((props, index) => (
               <FeatureBox key={index} {...props} />
             ))}
+          </Grid>
+          <div className="my-15">
+            <Button text="Show me templates" />
           </div>
         </InnerSection>
+      </Section>
+      <Section>
+        <TemplateGrid templates={templates} />
       </Section>
     </>
   );

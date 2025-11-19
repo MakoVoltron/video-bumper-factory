@@ -1,5 +1,6 @@
 import Image from "next/image";
 import hero from "@/public/images/hero.jpg";
+import Button from "./ui/Button";
 
 const Hero = () => {
   return (
@@ -40,9 +41,7 @@ const Hero = () => {
               </span>
             </div> */}
           <div className="mt-5">
-            <button className="bg-purple-950 font-bold py-3 px-5 rounded-2xl hover:bg-purple-700 transition duration-500 cursor-pointer">
-              Start now only for $99
-            </button>
+            <Button text="Start now only for $99" />
           </div>
         </div>
       </div>
