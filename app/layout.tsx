@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import localFont from "next/font/local";
-import { APP } from "../lib/constants";
+import { APP } from "./lib/constants";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -22,6 +22,7 @@ const headlineFont = localFont({
 export const metadata: Metadata = {
   title: APP.NAME,
   description: APP.DESCRIPTION,
+  metadataBase: new URL(APP.URL),
 };
 
 export default function RootLayout({
