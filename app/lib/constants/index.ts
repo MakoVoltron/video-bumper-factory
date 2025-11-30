@@ -7,3 +7,7 @@ export const endpoint = {
 export const cloudinaryPreset = {
   videoPreview: "video_template_preview",
 };
+
+export const APP = {
+  NAME: "Video Bumper Factory",
+};

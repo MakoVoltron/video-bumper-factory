@@ -6,7 +6,7 @@ import InnerSection from "@/components/util/InnerSection";
 import Section from "@/components/util/Section";
 import ArrowIconTriangle from "@/icons/ArrowIconTriangle";
 
-import { featuresData, templates } from "./data";
+import { featuresData, templates } from "../data";
 import Grid from "@/components/util/Grid";
 import Button from "@/components/ui/Button";
 

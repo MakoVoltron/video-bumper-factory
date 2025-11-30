@@ -21,11 +21,15 @@ model User {
 }
 
 model TemplatePreview {
-  id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  title      String
-  previewUrl String
-  posterUrl  String
-  authorId   String
-  author     User     @relation(fields: [authorId], references: [id])
-  createdAt  DateTime @default(now()) @db.Timestamp(6)
+  id            String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  title         String
+  previewUrl    String
+  posterUrl     String
+  authorId      String   @db.Uuid
+  author        User     @relation(fields: [authorId], references: [id])
+  category      String
+  isFeatured    Boolean  @default(false)
+  orderPriority Int
+  price         Int      @default(99)
+  createdAt     DateTime @default(now()) @db.Timestamp(6)
 }

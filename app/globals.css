@@ -16,6 +16,8 @@ html {
   --font-mono: var(--font-geist-mono);
 
   --font-headline: var(--font-headline);
+
+  --animate-border-spin: border-spin 5s linear infinite;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -46,6 +48,50 @@ body {
   }
 }
 
+@keyframes border-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(-360deg);
+  }
+}
+
 .fade-in {
   animation: fadeIn 0.7s ease-out;
+}
+
+@layer utilities {
+  .featurebox-wrapper {
+    @apply relative bg-linear-to-b  from-slate-900 to-slate-950 overflow-hidden;
+  }
+
+  .featurebox-wrapper::before,
+  .featurebox-wrapper::after {
+    background: conic-gradient(
+      rgba(244, 114, 182, 0.4) 0deg,
+      rgba(192, 132, 252, 0.4) 0deg,
+      transparent 120deg
+    );
+
+    @apply absolute h-[300%] w-[350%] left-[-125%] -top-full content-[""] -z-10 animate-border-spin transition duration-500 opacity-0;
+  }
+
+  .featurebox-wrapper::before {
+    filter: blur(1.5rem);
+    opacity: 0;
+  }
+
+  .featurebox-wrapper:hover::before,
+  .featurebox-wrapper:hover::after {
+    @apply opacity-100;
+  }
+
+  .featurebox-wrapper:hover::before {
+    opacity: 0.4; /* glowing haze */
+  }
+
+  .featurebox-content {
+    @apply w-full h-full rounded-xl bg-linear-to-b  from-slate-900 to-slate-950;
+  }
 }
