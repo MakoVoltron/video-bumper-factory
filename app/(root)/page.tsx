@@ -13,7 +13,9 @@ import Button from "@/components/ui/Button";
 import TemplateGrid from "@/components/TemplateGrid";
 import Filters from "@/components/Filters";
 
-export default function Home() {
+export default async function Home() {
+
+
   return (
     <>
       <Section>

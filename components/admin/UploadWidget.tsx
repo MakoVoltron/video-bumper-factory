@@ -1,9 +1,9 @@
 "use client";
 
-import { endpoint } from "@/app/lib/constants";
+import { endpoint } from "@/lib/constants";
 import { CldUploadWidget, CloudinaryUploadWidgetInfo } from "next-cloudinary";
 import { useState } from "react";
-import { cloudinaryPreset } from "@/app/lib/constants";
+import { cloudinaryPreset } from "@/lib/constants";
 
 type UploadWidgetProps = {
   btnText?: string;
@@ -22,13 +22,13 @@ const UploadWidget = ({ btnText = "Upload", preset }: UploadWidgetProps) => {
     <CldUploadWidget
       signatureEndpoint={endpoint.cloudinarySigning}
       uploadPreset={preset}
-      options={{ sources: ["local"] }}
+      options={{ sources: ["local"], clientAllowedFormats: ["image"] }}
       onSuccess={(result, { widget }) => {
         console.log(result);
         setResource(result?.info);
       }}
       onQueuesEnd={(result, { widget }) => {
-        widget.close();
+        // widget.close();
       }}
     >
       {({ open }) => {

@@ -1,5 +1,5 @@
 import UploadWidget from "@/components/admin/UploadWidget";
-import { cloudinaryPreset } from "../lib/constants";
+import { cloudinaryPreset } from "../../lib/constants";
 
 const AdminPage = () => {
   return (

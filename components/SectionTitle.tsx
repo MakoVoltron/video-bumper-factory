@@ -1,6 +1,6 @@
 "use client";
 
-import { useInView } from "@/app/hooks/useInView";
+import { useInView } from "@/hooks/useInView";
 
 const SectionTitle = () => {
   const { ref, isVisible } = useInView();

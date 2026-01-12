@@ -1,0 +1,5 @@
+NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=imagedepository
+NEXT_PUBLIC_CLOUDINARY_API_KEY="395391689336714"
+CLOUDINARY_API_SECRET="1XDLoVbBu8MbkXTdGwxfQNiC4ho"
+
+# DATABASE_URL=postgresql://neondb_owner:npg_p5RHfVks3IES@ep-super-field-ah8x6mx9-pooler.c-3.us-east-1.aws.neon.tech/neondb?sslmode=require
