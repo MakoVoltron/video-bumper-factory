@@ -40,17 +40,20 @@ model User {
 }
 
 model TemplatePreview {
-    id            String   @id
-    title         String
-    previewUrl    String
-    posterUrl     String
-    // authorId      String   @db.Uuid
-    // author        User     @relation(fields: [authorId], references: [id])
-    category      String
+    id String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+
+    title    String
+    category String
+
+    posterUrl      String
+    posterPublicId String
+    videoUrl       String
+    videoPublicId  String
+
     isFeatured    Boolean  @default(false)
-    orderPriority Int
+    orderPriority Int      @default(0)
     price         Int      @default(99)
-    createdAt     DateTime @default(now()) @db.Timestamp(6)
+    createdAt     DateTime @default(now())
 }
 
 model Session {

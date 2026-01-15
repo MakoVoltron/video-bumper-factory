@@ -1,6 +1,7 @@
 // ENDPOINTS
 export const endpoint = {
   cloudinarySigning: "/api/sign-cloudinary-params",
+  uploadTemplate: "/api/templates",
 };
 
 // CLOUDINARY PRESETS

@@ -9,6 +9,7 @@ import Button from "@/components/ui/Button";
 import { signOut } from "@/lib/actions/auth";
 import { ToastContainer } from "react-toastify";
 import AuthToast from "@/components/helpers/AuthToast";
+import Providers from "./providers";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -48,22 +49,24 @@ export default async function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${headlineFont.variable} antialiased`}
       >
-        <div className="flex flex-col min-h-screen justify-center items-center bg-zinc-50 font-sans dark:bg-black ">
-          {session && (
-            <div className="py-3 px-10 bg-purple-900/50 w-full text-center flex justify-between">
-              <div>YOU ARE LOGGED IN AS ADMIN</div>
-              <div>
-                <form action={signOut}>
-                  <Button text="Logout" size="sm" />
-                </form>
+        <Providers>
+          <div className="flex flex-col min-h-screen justify-center items-center bg-zinc-50 font-sans dark:bg-black ">
+            {session && (
+              <div className="py-3 px-10 bg-purple-900/50 w-full text-center flex justify-between items-center">
+                <div>YOU ARE LOGGED IN AS ADMIN</div>
+                <div>
+                  <form action={signOut}>
+                    <Button text="Logout" size="sm" />
+                  </form>
+                </div>
               </div>
-            </div>
-          )}
-          <main className="flex w-full flex-col items-center"></main>
-          <AuthToast />
-          {children}
-          <ToastContainer />
-        </div>
+            )}
+            <main className="flex w-full flex-col items-center"></main>
+            <AuthToast />
+            {children}
+            <ToastContainer />
+          </div>
+        </Providers>
       </body>
     </html>
   );
