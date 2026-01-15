@@ -10,6 +10,7 @@ import { signOut } from "@/lib/actions/auth";
 import { ToastContainer } from "react-toastify";
 import AuthToast from "@/components/helpers/AuthToast";
 import Providers from "./providers";
+import AdminNavbar from "@/components/admin/AdminNavbar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -51,16 +52,7 @@ export default async function RootLayout({
       >
         <Providers>
           <div className="flex flex-col min-h-screen justify-center items-center bg-zinc-50 font-sans dark:bg-black ">
-            {session && (
-              <div className="fixed top-0 left-0 z-50 py-3 px-10 bg-purple-900 w-full text-center flex justify-between items-center">
-                <div>YOU ARE LOGGED IN AS ADMIN</div>
-                <div>
-                  <form action={signOut}>
-                    <Button text="Logout" size="sm" />
-                  </form>
-                </div>
-              </div>
-            )}
+            {session && <AdminNavbar />}
             <main className="flex w-full flex-col items-center"></main>
             <AuthToast />
             {children}
