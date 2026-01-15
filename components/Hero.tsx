@@ -13,6 +13,7 @@ const Hero = () => {
         className="object-cover"
         loading="eager"
         placeholder="blur"
+        priority
       />
       {/* Overlay */}
       <div className="absolute inset-0 bg-black/85" />

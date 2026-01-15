@@ -3,12 +3,9 @@
 import Image from "next/image";
 
 import { ShoppingCartIcon } from "lucide-react";
+import { Template } from "@/types";
 
-type VideoPreviewProps = {
-  id?: number;
-  name?: string;
-  poster: string;
-  preview: string;
+type VideoPreviewProps = Template & {
   onClick?: () => void;
   overlay?: boolean;
   mute?: boolean;
@@ -16,11 +13,11 @@ type VideoPreviewProps = {
 
 const Video = ({
   id,
-  preview,
-  poster,
+  videoUrl,
+  posterUrl,
   onClick,
   overlay = true,
-  mute = false,
+  mute = true,
 }: VideoPreviewProps) => {
   return (
     <div className="col-span-4 relative group/video">
@@ -35,19 +32,19 @@ const Video = ({
         </button>
       )}
 
-      {/* Poster */}
+      {/* posterUrl */}
       <Image
-        src={poster}
+        src={posterUrl}
         alt=""
         fill
-        sizes="(max-width: 768px) 100vw, 33vw"
+        sizes="(max-width: 500px) 100vw, 33vw"
         className="object-cover group-hover/video:opacity-0 grayscale hover:grayscale-0 transition-opacity duration-200 pointer-events-none"
         priority={false}
       />
 
       <video
         key={id}
-        src={preview}
+        src={videoUrl}
         preload="metadata"
         playsInline
         muted={mute}

@@ -1,5 +1,6 @@
 "use client";
 
+import { Template } from "@/types";
 import Video from "./ui/Video";
 import { FILTER_TYPE } from "@/app/data";
 
@@ -13,8 +14,8 @@ export type TemplateProp = {
   category: Category;
 };
 
-const TemplateGrid = ({ templates }: { templates: TemplateProp[] }) => {
-  const handleClick = (id: number) => {
+const TemplateGrid = ({ templates }: { templates: Template[] }) => {
+  const handleClick = (id: string) => {
     alert(`BUT THIS ID: ${id}`);
   };
 
