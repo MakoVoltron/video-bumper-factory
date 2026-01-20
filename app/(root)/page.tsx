@@ -10,15 +10,9 @@ import { featuresData } from "../data";
 import Grid from "@/components/util/Grid";
 import Button from "@/components/ui/Button";
 
-import TemplateGrid from "@/components/TemplateGrid";
-import Filters from "@/components/Filters";
-import { prisma } from "@/lib/db/client";
+import TemplateList from "@/components/TemplateList";
 
 export default async function Home() {
-  const templates = await prisma.templatePreview.findMany();
-  console.log("templates");
-  console.log(templates);
-
   return (
     <>
       <Section>
@@ -40,14 +34,13 @@ export default async function Home() {
               <FeatureBox key={index} {...props} />
             ))}
           </Grid>
-          <div className="my-15">
-            <Button text="Show me templates" />
+          <div className="my-5">
+            <Button text="Show me templates" target="templates" />
           </div>
         </InnerSection>
       </Section>
-      <Section>
-        <Filters />
-        <TemplateGrid templates={templates} />
+      <Section id="templates">
+        <TemplateList />
       </Section>
     </>
   );

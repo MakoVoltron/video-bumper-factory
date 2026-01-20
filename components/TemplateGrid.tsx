@@ -2,17 +2,6 @@
 
 import { Template } from "@/types";
 import Video from "./ui/Video";
-import { FILTER_TYPE } from "@/app/data";
-
-type Category = typeof FILTER_TYPE.VERTICAL;
-
-export type TemplateProp = {
-  id: number;
-  name: string;
-  poster: string;
-  preview: string;
-  category: Category;
-};
 
 const TemplateGrid = ({ templates }: { templates: Template[] }) => {
   const handleClick = (id: string) => {

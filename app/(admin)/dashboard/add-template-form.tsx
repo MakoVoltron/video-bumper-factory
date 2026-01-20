@@ -11,17 +11,11 @@ import { useUploadTemplate } from "@/hooks/useUploadTemplate";
 
 import { redirect } from "next/navigation";
 import BlockingOverlay from "@/components/ui/BlockingOverlay";
+import { CATEGORY_TYPE } from "@/lib/constants";
 
 type UploadStatus = "idle" | "uploading" | "success" | "error";
 
-const CATEGORY_TYPE = [
-  {
-    label: "Horizontal",
-  },
-  {
-    label: "Vertical",
-  },
-];
+export type CategoryLabels = (typeof CATEGORY_TYPE)[number]["label"];
 
 const AddTemplateForm = () => {
   const [title, setTitle] = useState("");
@@ -30,7 +24,9 @@ const AddTemplateForm = () => {
   const [posterPreview, setPosterPreview] = useState<string | null>(null);
   const [templatePreview, setTemplatePreview] = useState<string | null>(null);
   const [status, setStatus] = useState<UploadStatus>("idle");
-  const [category, setCategory] = useState(CATEGORY_TYPE[0].label);
+  const [category, setCategory] = useState<CategoryLabels>(
+    CATEGORY_TYPE[0].label,
+  );
   const [progress, setProgress] = useState(0);
 
   const { mutate: uploadTemplate, isPending } = useUploadTemplate();
@@ -87,10 +83,10 @@ const AddTemplateForm = () => {
           toast.error(
             error instanceof Error
               ? error.message
-              : "Template could not be added"
+              : "Template could not be added",
           );
         },
-      }
+      },
     );
 
     // try {
@@ -164,7 +160,7 @@ const AddTemplateForm = () => {
                   className="hidden"
                   type="radio"
                   value={item.label}
-                  onChange={(e) => setCategory(e.target.value)}
+                  onChange={() => setCategory(item.label)}
                 />
               </label>
             ))}
@@ -201,8 +197,8 @@ const AddTemplateForm = () => {
 
             {templatePreview && posterPreview && (
               <Video
-                poster={posterPreview}
-                preview={templatePreview}
+                posterUrl={posterPreview}
+                videoUrl={templatePreview}
                 overlay={false}
               />
             )}

@@ -3,6 +3,18 @@ import { prisma } from "@/lib/db/client";
 import { uploadToCloudinary } from "@/lib/helpers/uploadToCloudinary";
 import { UploadApiResponse } from "cloudinary";
 import cloudinary from "@/lib/upload/cloudinary";
+import { params } from "@/lib/constants";
+
+export async function GET(req: Request) {
+  const url = new URL(req.url);
+  const category = url.searchParams.get(params.FILTER);
+
+  const templates = await prisma.templatePreview.findMany({
+    where: category ? { category } : undefined,
+  });
+
+  return new Response(JSON.stringify(templates), { status: 200 });
+}
 
 export async function POST(req: Request) {
   const formData = await req.formData();
@@ -17,7 +29,7 @@ export async function POST(req: Request) {
       {
         error: "Poster and video are required",
       },
-      { status: 400 }
+      { status: 400 },
     );
   }
 

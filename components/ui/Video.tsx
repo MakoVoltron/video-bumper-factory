@@ -5,14 +5,15 @@ import Image from "next/image";
 import { ShoppingCartIcon } from "lucide-react";
 import { Template } from "@/types";
 
-type VideoPreviewProps = Template & {
+type VideoPreviewProps = Pick<Template, "posterUrl" | "videoUrl"> & {
   onClick?: () => void;
   overlay?: boolean;
   mute?: boolean;
+  id?: string;
 };
 
 const Video = ({
-  id,
+  id = "preview-video",
   videoUrl,
   posterUrl,
   onClick,

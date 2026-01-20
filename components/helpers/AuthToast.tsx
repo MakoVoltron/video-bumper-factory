@@ -9,18 +9,21 @@ const AuthToast = () => {
   const params = useSearchParams();
   const router = useRouter();
 
+  const toastType = params.get("toast");
+
   useEffect(() => {
-    const toastType = params.get("toast");
+    if (!toastType) return;
 
     if (toastType === "signin-success") {
       toast.success("Welcome back 👋");
     }
 
-    // remove param
-    const url = new URL(window.location.href);
-    url.searchParams.delete("toast");
-    router.replace(url.pathname, { scroll: false });
-  }, [params, router]);
+    const newParams = new URLSearchParams(params.toString());
+    newParams.delete("toast");
+
+    const query = newParams.toString();
+    router.replace(query ? `?${query}` : "", { scroll: false });
+  }, [toastType, params, router]);
 
   return null;
 };
