@@ -13,9 +13,12 @@ export type VideoAction = {
   icon?: React.ReactNode;
 };
 
+type VideoMode = "hover" | "loop";
+
 export type VideoPreviewProps = Pick<Template, "posterUrl" | "videoUrl"> & {
   id?: string;
   mute?: boolean;
-  onClick?: () => void;
+  mode?: VideoMode;
   actions?: VideoAction[];
+  onClick?: () => void;
 };

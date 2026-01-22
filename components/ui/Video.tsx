@@ -1,16 +1,37 @@
 "use client";
 
 import Image from "next/image";
-import React from "react";
+import React, { useRef, useState } from "react";
 import { VideoPreviewProps } from "@/types/video";
+import { cn } from "@/lib/utils";
 
 const Video = ({
   id = "preview-video",
   videoUrl,
   posterUrl,
   mute = true,
+  mode = "hover",
   actions,
 }: VideoPreviewProps) => {
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const [isPlaying, setIsPlaying] = useState(mode === "loop");
+
+  const handlePlay = () => {
+    setIsPlaying(true);
+    videoRef.current?.play();
+  };
+
+  const handleStop = () => {
+    if (mode === "hover") {
+      const video = videoRef.current;
+      if (!video) return;
+
+      video.pause();
+      video.currentTime = 0;
+      setIsPlaying(false);
+    }
+  };
+
   return (
     <div className="col-span-4 relative group/video">
       <div className="absolute right-0">
@@ -37,24 +58,33 @@ const Video = ({
         alt=""
         fill
         sizes="(max-width: 500px) 100vw, 33vw"
-        className="object-cover group-hover/video:opacity-0 grayscale hover:grayscale-0 transition-opacity duration-200 pointer-events-none"
+        className={cn(
+          "object-cover group-hover/video:opacity-0 grayscale hover:grayscale-0 transition-opacity duration-200 pointer-events-none",
+          isPlaying ? "opacity-0" : "opacity-100",
+        )}
         priority={false}
       />
 
       <video
+        ref={videoRef}
         key={id}
         src={videoUrl}
         preload="metadata"
+        autoPlay={mode === "loop"}
+        loop={mode === "loop"}
         playsInline
         muted={mute}
         className="w-full h-full object-cover"
-        onMouseEnter={(e) => e.currentTarget.play()}
-        onMouseLeave={(e) => {
-          const video = e.currentTarget;
-          video.pause();
-          video.currentTime = 0;
-          video.load();
-        }}
+        onMouseEnter={mode === "hover" ? handlePlay : undefined}
+        onMouseLeave={mode === "hover" ? handleStop : undefined}
+        onPlay={() => setIsPlaying(true)}
+        // onMouseEnter={(e) => e.currentTarget.play()}
+        // onMouseLeave={(e) => {
+        //   const video = e.currentTarget;
+        //   video.pause();
+        //   video.currentTime = 0;
+        //   // video.load();
+        // }}
       />
     </div>
   );
