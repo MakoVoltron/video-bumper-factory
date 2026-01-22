@@ -6,14 +6,14 @@ import TemplateGrid from "./TemplateGrid";
 import { CategoryLabels } from "@/app/(admin)/dashboard/add-template-form";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { endpoint, params } from "@/lib/constants";
+import { endpoint, params, queryKey } from "@/lib/constants";
 import Spinner from "./ui/Spinner";
 
 const TemplateList = () => {
-  const [filter, setFilter] = useState<CategoryLabels | null>(null);
+  const [filter, setFilter] = useState<CategoryLabels | undefined>(undefined);
 
   const { data: templates, isLoading } = useQuery({
-    queryKey: ["templates", filter],
+    queryKey: [queryKey.templates, filter],
     queryFn: async () => {
       const res = await axios(
         `${endpoint.fetchTemplates}?${params.FILTER}=${filter ?? ""}`,
@@ -24,8 +24,14 @@ const TemplateList = () => {
 
   return (
     <>
-      <Filters onChange={setFilter} />
-      {isLoading ? <Spinner /> : <TemplateGrid templates={templates} />}
+      <Filters onChange={setFilter} selected={filter} />
+      {isLoading ? (
+        <div className="h-20 flex justify-center items-center">
+          <Spinner />
+        </div>
+      ) : (
+        <TemplateGrid templates={templates} />
+      )}
     </>
   );
 };

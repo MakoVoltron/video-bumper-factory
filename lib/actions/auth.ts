@@ -25,7 +25,7 @@ export async function signUpAction(formData: FormData) {
 
   try {
     await auth.api.signUpEmail({
-      body: { email, password, name },
+      body: { email, password, name, role: "USER" },
       headers: await headers(),
     });
 
@@ -41,7 +41,7 @@ export async function signUpAction(formData: FormData) {
 
     const message =
       error instanceof APIError
-        ? error.body?.message ?? "Could not create your account"
+        ? (error.body?.message ?? "Could not create your account")
         : "Sign up failed";
 
     return { success: false, message };
@@ -62,7 +62,7 @@ export async function signInAction(formData: FormData) {
   } catch (error) {
     const message =
       error instanceof APIError
-        ? error.body?.message ?? "Invalid credentials"
+        ? (error.body?.message ?? "Invalid credentials")
         : "Sign-in failed";
 
     redirect(`/signin?error=${encodeURIComponent(message)}`);

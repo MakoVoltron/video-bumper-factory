@@ -11,6 +11,7 @@ import { ToastContainer } from "react-toastify";
 import AuthToast from "@/components/helpers/AuthToast";
 import Providers from "./providers";
 import AdminNavbar from "@/components/admin/AdminNavbar";
+import { AdminProvider } from "@/lib/context/AdminContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -42,6 +43,8 @@ export default async function RootLayout({
     headers: await headers(),
   });
 
+  const isAdmin = session?.user.role === "ADMIN";
+
   console.log("session");
   console.log(session);
 
@@ -51,13 +54,15 @@ export default async function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} ${headlineFont.variable} antialiased`}
       >
         <Providers>
-          <div className="flex flex-col min-h-screen justify-center items-center bg-zinc-50 font-sans dark:bg-black ">
-            {session && <AdminNavbar />}
-            <main className="flex w-full flex-col items-center"></main>
-            <AuthToast />
-            {children}
-            <ToastContainer />
-          </div>
+          <AdminProvider value={{ isAdmin }}>
+            <div className="flex flex-col min-h-screen justify-center items-center bg-zinc-50 font-sans dark:bg-black ">
+              {session && <AdminNavbar />}
+              <main className="flex w-full flex-col items-center"></main>
+              <AuthToast />
+              {children}
+              <ToastContainer />
+            </div>
+          </AdminProvider>
         </Providers>
       </body>
     </html>

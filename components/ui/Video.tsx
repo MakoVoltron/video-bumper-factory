@@ -1,37 +1,35 @@
 "use client";
 
 import Image from "next/image";
-
-import { ShoppingCartIcon } from "lucide-react";
-import { Template } from "@/types";
-
-type VideoPreviewProps = Pick<Template, "posterUrl" | "videoUrl"> & {
-  onClick?: () => void;
-  overlay?: boolean;
-  mute?: boolean;
-  id?: string;
-};
+import React from "react";
+import { VideoPreviewProps } from "@/types/video";
 
 const Video = ({
   id = "preview-video",
   videoUrl,
   posterUrl,
-  onClick,
-  overlay = true,
   mute = true,
+  actions,
 }: VideoPreviewProps) => {
   return (
     <div className="col-span-4 relative group/video">
-      {overlay && (
-        <button
-          onClick={onClick}
-          className="bg-slate-900/30 hover:bg-slate-900/80 transition duration-500 absolute right-0 rounded-md p-2 m-1 cursor-pointer z-10 opacity-0  group-hover/video:opacity-100 size-8"
-        >
-          <div className="flex justify-center items-center">
-            <ShoppingCartIcon size={18} />
+      <div className="absolute right-0">
+        {actions && actions.length > 0 && (
+          <div className="flex">
+            {actions.map((action, i) => (
+              <button
+                key={i}
+                onClick={action.onClick}
+                className={` ${action.variant === "danger" ? "bg-rose-500 hover:bg-slate-900/80 hover:text-red-500" : "bg-slate-900/30 hover:bg-slate-900/80"} transition duration-500  right-0 rounded-md p-2 m-1 cursor-pointer z-10 opacity-0  group-hover/video:opacity-100 size-8 `}
+              >
+                <div className="flex justify-center items-center w-full h-full">
+                  {action.icon}
+                </div>
+              </button>
+            ))}
           </div>
-        </button>
-      )}
+        )}
+      </div>
 
       {/* posterUrl */}
       <Image

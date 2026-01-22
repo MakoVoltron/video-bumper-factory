@@ -3,11 +3,14 @@
 import { CategoryLabels } from "@/app/(admin)/dashboard/add-template-form";
 import { CATEGORY_TYPE } from "@/lib/constants";
 
-const Filters = ({
-  onChange,
-}: {
-  onChange: (value: CategoryLabels | null) => void;
-}) => {
+type FilterProps = {
+  onChange?: (value: CategoryLabels) => void;
+  selected?: CategoryLabels;
+};
+
+const Filters = ({ onChange, selected }: FilterProps) => {
+  console.log("selected", selected);
+
   return (
     <div className="m-2">
       <p className="text-center text-gray-400 text-sm my-2">
@@ -19,12 +22,11 @@ const Filters = ({
           return (
             <div className={`col-span-6 `} key={category.label}>
               <button
-                onClick={() => onChange(category.label)}
+                onClick={() => onChange?.(category.label)}
                 type="button"
-                className={`h-14 w-full  bg-purple-900/40 hover:bg-purple-900/80 border-2 border-purple-900 p-2 rounded-sm m-0.5 cursor-pointer flex items-center`}
+                className={`h-14 w-full   hover:bg-purple-900/80 border-2 ${category.label === selected ? "bg-purple-900" : "bg-purple-900/40"}  border-purple-900 p-2 rounded-sm m-0.5 cursor-pointer flex flex-col justify-center items-center gap-1`}
               >
                 {Icon && <Icon />}
-                <p className="text-xs">{category.label}</p>
               </button>
             </div>
           );

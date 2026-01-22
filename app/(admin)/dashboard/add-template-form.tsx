@@ -31,19 +31,6 @@ const AddTemplateForm = () => {
 
   const { mutate: uploadTemplate, isPending } = useUploadTemplate();
 
-  console.log("category");
-  console.log(category);
-
-  // console.log("poster");
-  // console.log(poster);
-
-  // console.log("posterPreview");
-  // console.log(posterPreview);
-  // console.log(!!posterPreview);
-
-  // console.log("templatePreview");
-  // console.log(templatePreview);
-
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -88,23 +75,6 @@ const AddTemplateForm = () => {
         },
       },
     );
-
-    // try {
-    //   const res = await axios.post("/api/templates", formData, {
-    //     headers: {
-    //       "Content-Type": "multipart/form-data",
-    //     },
-    //   });
-    //   console.log("res");
-    //   console.log(res);
-    //   toast.success("Template added to selection");
-    //   setStatus("success");
-    // } catch (error) {
-    //   console.log("error");
-    //   console.log(error);
-    //   toast.warning("Template could not be added");
-    //   setStatus("error");
-    // }
   };
 
   return (
@@ -142,28 +112,32 @@ const AddTemplateForm = () => {
 
           <Label text="Logo orientation" />
           <div className="grid grid-cols-12 gap-2 mb-2">
-            {CATEGORY_TYPE.map((item) => (
-              <label
-                key={item.label}
-                htmlFor={item.label}
-                className={`border-purple-700 ${
-                  item.label === category
-                    ? "bg-purple-700"
-                    : " border-2 hover:bg-purple-900"
-                }  transition duration-300 col-span-4 flex justify-center items-center h-18 rounded cursor-pointer`}
-              >
-                {item.label}
-                <input
-                  id={item.label}
-                  checked={item.label === category}
-                  name="category"
-                  className="hidden"
-                  type="radio"
-                  value={item.label}
-                  onChange={() => setCategory(item.label)}
-                />
-              </label>
-            ))}
+            {CATEGORY_TYPE.map((item) => {
+              const Icon = item.icon;
+              return (
+                <label
+                  key={item.label}
+                  htmlFor={item.label}
+                  className={`border-purple-700 ${
+                    item.label === category
+                      ? "bg-purple-700"
+                      : " border-2 hover:bg-purple-900"
+                  }  transition duration-300 col-span-4 flex justify-center items-center h-18 rounded cursor-pointer`}
+                >
+                  {Icon && <Icon />}
+                  {/* {item.label} */}
+                  <input
+                    id={item.label}
+                    checked={item.label === category}
+                    name="category"
+                    className="hidden"
+                    type="radio"
+                    value={item.label}
+                    onChange={() => setCategory(item.label)}
+                  />
+                </label>
+              );
+            })}
           </div>
 
           <Button
@@ -196,11 +170,7 @@ const AddTemplateForm = () => {
             )}
 
             {templatePreview && posterPreview && (
-              <Video
-                posterUrl={posterPreview}
-                videoUrl={templatePreview}
-                overlay={false}
-              />
+              <Video posterUrl={posterPreview} videoUrl={templatePreview} />
             )}
           </div>
           <div

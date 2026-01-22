@@ -1,10 +1,16 @@
 import IconHorizontal from "@/components/icons/IconHorizontal";
+import IconVertical from "@/components/icons/IconVertical";
 
 // ENDPOINTS
 export const endpoint = {
   cloudinarySigning: "/api/sign-cloudinary-params",
   uploadTemplate: "/api/templates",
   fetchTemplates: `/api/templates`,
+};
+
+// QUERY KEYS
+export const queryKey = {
+  templates: "templates",
 };
 
 // CLOUDINARY PRESETS
@@ -25,7 +31,7 @@ export const CATEGORY_TYPE = [
   },
   {
     label: "Vertical",
-    icon: "",
+    icon: IconVertical,
   },
 ] as const;
 
