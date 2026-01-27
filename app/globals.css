@@ -5,13 +5,17 @@ html {
 }
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg: oklch(98.5% 0.002 247.839);
+  --fg: oklch(20.8% 0.042 265.755);
+  --border: oklch(20.8% 0.042 265.755);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-bg: var(--bg);
+  --color-fg: var(--fg);
+  --color-border: var(--border);
+  --color-muted: var(--fg-muted);
+
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 
@@ -22,14 +26,30 @@ html {
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --bg: oklch(20.8% 0.042 265.755);
+    --fg: hwb(210 98% 2%);
+    --fg-muted: oklch(70.7% 0.022 261.325);
+    --border: 39 39 42;
   }
 }
 
+.theme-light {
+  --bg: oklch(98.5% 0.002 247.839);
+  --fg: oklch(20.8% 0.042 265.755);
+  --border: oklch(20.8% 0.042 265.755);
+  --fg-muted: oklch(37.3% 0.034 259.733);
+}
+
+.theme-dark {
+  --bg: oklch(20.8% 0.042 265.755);
+  --fg: oklch(98.5% 0.002 247.839);
+  --fg-muted: oklch(70.7% 0.022 261.325);
+  --border: 39 39 42;
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background: var(--bg);
+  color: var(--fg);
   font-family: Helvetica, sans-serif;
 }
 

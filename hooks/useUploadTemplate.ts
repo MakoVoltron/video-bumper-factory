@@ -1,14 +1,10 @@
 import { endpoint } from "@/lib/constants";
+import { UploadTemplateProps } from "@/types/video";
 import { useMutation } from "@tanstack/react-query";
 import axios, { AxiosResponse } from "axios";
 
-type UploadTemplateProps = {
-  formData: FormData;
-  onProgress?: (percent: number) => void;
-};
-
 async function uploadTemplate({ formData, onProgress }: UploadTemplateProps) {
-  const url = endpoint.uploadTemplate;
+  const url = endpoint.templates;
   const res = axios.post(url, formData, {
     headers: {
       "Content-Type": "multipart/form-data",

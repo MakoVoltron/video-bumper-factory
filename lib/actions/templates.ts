@@ -3,6 +3,7 @@
 import { auth } from "@/lib/auth";
 import { prisma } from "../db/client";
 import { headers } from "next/headers";
+import cloudinary from "../upload/cloudinary";
 
 export async function deleteTemplate(videoId: string) {
   const session = await auth.api.getSession({ headers: await headers() });
@@ -10,5 +11,17 @@ export async function deleteTemplate(videoId: string) {
     throw new Error("Not authorized");
   }
 
-  await prisma.templatePreview.delete({ where: { id: videoId } });
+  const template = await prisma.templatePreview.delete({
+    where: { id: videoId },
+  });
+
+  await cloudinary.uploader.destroy(template.posterPublicId, {
+    resource_type: "image",
+  });
+  await cloudinary.uploader.destroy(template.videoPublicId, {
+    resource_type: "video",
+  });
+
+  console.log("template to be deleted");
+  console.log(template);
 }

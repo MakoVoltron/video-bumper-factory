@@ -1,22 +1,28 @@
 "use client";
 
-import { Template } from "@/types";
+import { Template } from "@/types/video";
 import Video from "./ui/Video";
 import { useAdmin } from "@/lib/context/AdminContext";
 import { Edit, ShoppingCartIcon, Trash } from "lucide-react";
 import { VideoAction } from "@/types/video";
 import { useState } from "react";
 import ConfirmModal from "./ui/ConfirmModal";
-import { useDeleteTemplate } from "@/hooks/useDeleteVideo";
+import { useDeleteTemplate } from "@/hooks/useDeleteTemplate";
 import { toast } from "react-toastify";
+import EditTemplateModal from "./ui/EditTemplateModal";
+import { CategoryLabels } from "@/app/(admin)/dashboard/add-template-form";
 
-type TemplateContext = {
+export type TemplateContext = {
   id: string;
   title: string;
   videoUrl: string;
   posterUrl: string;
+  category: CategoryLabels;
 };
-type PendingAction = { type: "delete"; template: TemplateContext } | null;
+type PendingAction =
+  | { type: "delete"; template: Template }
+  | { type: "edit"; template: Template }
+  | null;
 
 const TemplateGrid = ({ templates }: { templates: Template[] }) => {
   const [pendingAction, setPendingAction] = useState<PendingAction>(null);
@@ -24,9 +30,6 @@ const TemplateGrid = ({ templates }: { templates: Template[] }) => {
   const { isAdmin } = useAdmin();
 
   const deleteMutation = useDeleteTemplate();
-
-  console.log("isAdmin");
-  console.log(isAdmin);
 
   const buyTemplate = (id: string) => {
     alert(`BUY THIS ID: ${id}`);
@@ -39,12 +42,14 @@ const TemplateGrid = ({ templates }: { templates: Template[] }) => {
   const requestDelete = (template: Template) => {
     setPendingAction({
       type: "delete",
-      template: {
-        id: template.id,
-        title: template.title,
-        videoUrl: template.videoUrl,
-        posterUrl: template.posterUrl,
-      },
+      template,
+    });
+  };
+
+  const requestEdit = (template: Template) => {
+    setPendingAction({
+      type: "edit",
+      template,
     });
   };
 
@@ -53,7 +58,7 @@ const TemplateGrid = ({ templates }: { templates: Template[] }) => {
       return [
         {
           label: "Edit",
-          onClick: () => editTemplate(template.id),
+          onClick: () => requestEdit(template),
           icon: <Edit />,
         },
         {
@@ -101,6 +106,15 @@ const TemplateGrid = ({ templates }: { templates: Template[] }) => {
               },
             })
           }
+        />
+      )}
+
+      {pendingAction?.type === "edit" && (
+        <EditTemplateModal
+          title="Edit template"
+          description=""
+          template={pendingAction.template}
+          closeModal={() => setPendingAction(null)}
         />
       )}
     </div>

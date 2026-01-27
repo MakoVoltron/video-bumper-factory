@@ -1,5 +1,6 @@
 import { ChangeEvent } from "react";
 import Label from "./Label";
+import { CircleCheck } from "lucide-react";
 
 type Input = {
   type?: "text" | "number" | "file";
@@ -8,9 +9,10 @@ type Input = {
   required?: boolean;
   cols?: "12" | "8" | "6" | "4";
   validated?: boolean;
-  onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
   label?: string;
   accept?: "image/png" | "video/mp4";
+  value?: string;
+  onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
 };
 
 const Input = ({
@@ -18,25 +20,32 @@ const Input = ({
   name,
   placeholder,
   required = false,
-  onChange,
-  cols = "12",
+  cols,
   validated,
   label,
   accept,
+  value,
+  onChange,
 }: Input) => {
   return (
-    <div className={`col-span-12 sm:col-span-${cols}`}>
+    <div className={`col-span-${cols}`}>
       <div className="flex flex-col">
         {type === "file" ? (
           <label
             htmlFor={name}
-            className={`border py-2 px-3 h-10 rounded-xl cursor-pointer text-white/50 hover:border-emerald-600 transition duration-300  ${
+            className={`relative border py-2 px-3 h-10 rounded-xl cursor-pointer text-white/50 hover:border-emerald-600 transition duration-300  ${
               validated && "border-emerald-600"
             }`}
           >
             {label && <Label text={label} htmlFor={name} />}
 
-            {placeholder}
+            <span className="text-fg">{placeholder}</span>
+
+            {validated && (
+              <span className="text-emerald-500 absolute right-1">
+                <CircleCheck />
+              </span>
+            )}
 
             <input
               id={name}
@@ -47,6 +56,7 @@ const Input = ({
               required={required}
               onChange={onChange}
               accept={accept}
+              value={value}
             />
           </label>
         ) : (
@@ -54,7 +64,7 @@ const Input = ({
             {label && <Label text={label} htmlFor={name} />}
             <input
               id={name}
-              className={`border border-white/50 py-2 px-3 rounded-xl outline-none cursor-pointer hover:border-emerald-600 transition duration-300  ${
+              className={`border border-border py-2 px-3 rounded-xl outline-none cursor-pointer hover:border-emerald-600 transition duration-300  ${
                 validated && "border-emerald-600"
               }`}
               type={type}
@@ -63,6 +73,7 @@ const Input = ({
               required={required}
               onChange={onChange}
               accept={accept}
+              value={value}
             />
           </>
         )}

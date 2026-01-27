@@ -4,6 +4,10 @@ import { uploadToCloudinary } from "@/lib/helpers/uploadToCloudinary";
 import { UploadApiResponse } from "cloudinary";
 import cloudinary from "@/lib/upload/cloudinary";
 import { params } from "@/lib/constants";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
+import { error } from "console";
 
 export async function GET(req: Request) {
   const url = new URL(req.url);
@@ -15,6 +19,20 @@ export async function GET(req: Request) {
 
   return new Response(JSON.stringify(templates), { status: 200 });
 }
+
+export type UploadedMedia = {
+  poster?: UploadApiResponse;
+  video?: UploadApiResponse;
+};
+
+type UpdatedData = {
+  title: string;
+  category: string;
+  posterUrl?: string;
+  posterPublicId?: string;
+  videoUrl?: string;
+  videoPublicId?: string;
+};
 
 export async function POST(req: Request) {
   const formData = await req.formData();
@@ -32,11 +50,6 @@ export async function POST(req: Request) {
       { status: 400 },
     );
   }
-
-  type UploadedMedia = {
-    poster?: UploadApiResponse;
-    video?: UploadApiResponse;
-  };
 
   const uploaded: UploadedMedia = {};
 
@@ -72,5 +85,84 @@ export async function POST(req: Request) {
       });
     }
     console.log(error);
+  }
+}
+
+export async function PUT(req: Request) {
+  const session = await auth.api.getSession({ headers: await headers() });
+
+  if (!session) {
+    return NextResponse.json({ error: "Unauthenticated" }, { status: 401 });
+  }
+
+  if (session?.user.role !== "ADMIN") {
+    return NextResponse.json(
+      {
+        error: "Forbidden",
+      },
+      { status: 401 },
+    );
+  }
+
+  const formData = await req.formData();
+
+  const id = formData.get("videoId") as string;
+  const title = formData.get("title") as string;
+  const category = formData.get("category") as string;
+  const posterFile = formData.get("poster") as File | null;
+  const videoFile = formData.get("video") as File | null;
+
+  if (!id || !title || !category)
+    return NextResponse.json(
+      { error: "Missing required fields" },
+      { status: 400 },
+    );
+
+  const template = await prisma.templatePreview.findUnique({ where: { id } });
+
+  if (!template) {
+    return NextResponse.json({ error: "Not found" }, { status: 404 });
+  }
+
+  const updatedData: UpdatedData = {
+    title,
+    category,
+  };
+
+  try {
+    // poster update
+    if (posterFile) {
+      const uploadedPoster = await uploadToCloudinary(posterFile, "image");
+      updatedData.posterUrl = uploadedPoster?.secure_url;
+      updatedData.posterPublicId = uploadedPoster?.public_id;
+
+      await cloudinary.uploader.destroy(template.posterPublicId);
+    }
+
+    // video update
+    if (videoFile) {
+      const video = await uploadToCloudinary(videoFile, "video");
+      updatedData.videoUrl = video?.secure_url;
+      updatedData.videoPublicId = video?.public_id;
+
+      await cloudinary.uploader.destroy(template.videoPublicId, {
+        resource_type: "video",
+      });
+    }
+
+    const updated = await prisma.templatePreview.update({
+      where: { id },
+      data: updatedData,
+    });
+
+    return NextResponse.json(updated);
+  } catch (error) {
+    console.error("Templated update failed: ", error);
+    return NextResponse.json(
+      {
+        error: "Failed to update template",
+      },
+      { status: 500 },
+    );
   }
 }

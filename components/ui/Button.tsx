@@ -1,6 +1,7 @@
 type ButtonProps = {
   text: string;
   size?: "sm" | "lg";
+  type?: "submit" | "button";
   onClick?: (e: React.FormEvent) => void;
   disabled?: boolean;
   target?: string;
@@ -12,11 +13,13 @@ const Button = ({
   onClick,
   disabled = false,
   target,
+  type,
 }: ButtonProps) => {
   return (
     <a href={`${target ? `#${target}` : null}`}>
       <button
         onClick={onClick ?? undefined}
+        type={type}
         disabled={disabled}
         className={`bg-purple-950 font-bold ${
           size === "sm" ? "py-1 px-4 text-sm" : "py-3 px-5"

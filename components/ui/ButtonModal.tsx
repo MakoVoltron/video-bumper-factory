@@ -8,7 +8,7 @@ type ButtonModalProps = {
 const ButtonModal = ({
   label,
   variation = "default",
-  isLoading = false,
+  isLoading,
   onClick,
 }: ButtonModalProps) => {
   const style =

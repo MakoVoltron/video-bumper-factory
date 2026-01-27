@@ -9,6 +9,6 @@ export const addNewTemplateSchema = z.object({
   videoPublicId: z.string(),
   category: z.string().min(3, "Category must be at least 3 characters"),
   isFeatured: z.boolean(),
-  orderPriority: z.number().optional,
+  orderPriority: z.number(),
   price: z.number(),
 });

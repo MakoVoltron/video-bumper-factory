@@ -1,9 +1,11 @@
 import z from "zod";
 import { addNewTemplateSchema } from "../lib/validators";
+import { CategoryLabels } from "@/app/(admin)/dashboard/add-template-form";
 
 export type Template = z.infer<typeof addNewTemplateSchema> & {
   id: string;
   createdAt: Date;
+  category: CategoryLabels;
 };
 
 export type VideoAction = {
@@ -13,7 +15,7 @@ export type VideoAction = {
   icon?: React.ReactNode;
 };
 
-type VideoMode = "hover" | "loop";
+export type VideoMode = "hover" | "loop";
 
 export type VideoPreviewProps = Pick<Template, "posterUrl" | "videoUrl"> & {
   id?: string;
@@ -21,4 +23,9 @@ export type VideoPreviewProps = Pick<Template, "posterUrl" | "videoUrl"> & {
   mode?: VideoMode;
   actions?: VideoAction[];
   onClick?: () => void;
+};
+
+export type UploadTemplateProps = {
+  formData: FormData;
+  onProgress?: (percent: number) => void;
 };

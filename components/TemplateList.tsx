@@ -16,7 +16,7 @@ const TemplateList = () => {
     queryKey: [queryKey.templates, filter],
     queryFn: async () => {
       const res = await axios(
-        `${endpoint.fetchTemplates}?${params.FILTER}=${filter ?? ""}`,
+        `${endpoint.templates}?${params.FILTER}=${filter ?? ""}`,
       );
       return res.data;
     },

@@ -4,8 +4,7 @@ import IconVertical from "@/components/icons/IconVertical";
 // ENDPOINTS
 export const endpoint = {
   cloudinarySigning: "/api/sign-cloudinary-params",
-  uploadTemplate: "/api/templates",
-  fetchTemplates: `/api/templates`,
+  templates: "/api/templates",
 };
 
 // QUERY KEYS

@@ -7,6 +7,11 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      colors: {
+        bg: "rgb(var(--bg))",
+        fg: "rgb(var(--fg))",
+        border: "rgb(var(--border))",
+      },
       fontFamily: {
         headline: ["var(--font-headline)"],
       },
