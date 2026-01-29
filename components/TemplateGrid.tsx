@@ -5,12 +5,15 @@ import Video from "./ui/Video";
 import { useAdmin } from "@/lib/context/AdminContext";
 import { Edit, ShoppingCartIcon, Trash } from "lucide-react";
 import { VideoAction } from "@/types/video";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ConfirmModal from "./ui/ConfirmModal";
 import { useDeleteTemplate } from "@/hooks/useDeleteTemplate";
 import { toast } from "react-toastify";
-import EditTemplateModal from "./ui/EditTemplateModal";
+
 import { CategoryLabels } from "@/app/(admin)/dashboard/add-template-form";
+import ModalTemplate from "./ModalTemplate";
+import EditTemplateForm from "@/app/(admin)/dashboard/edit-template-form";
+import StripeCheckoutForm from "./StripeCheckoutForm";
 
 export type TemplateContext = {
   id: string;
@@ -22,10 +25,12 @@ export type TemplateContext = {
 type PendingAction =
   | { type: "delete"; template: Template }
   | { type: "edit"; template: Template }
+  | { type: "buy"; template: Template }
   | null;
 
 const TemplateGrid = ({ templates }: { templates: Template[] }) => {
   const [pendingAction, setPendingAction] = useState<PendingAction>(null);
+  const [sessionKey, setSessionKey] = useState(0);
 
   const { isAdmin } = useAdmin();
 
@@ -53,6 +58,14 @@ const TemplateGrid = ({ templates }: { templates: Template[] }) => {
     });
   };
 
+  const requestPurchase = (template: Template) => {
+    setSessionKey((k) => k + 1);
+    setPendingAction({
+      type: "buy",
+      template,
+    });
+  };
+
   const getActions = (template: Template): VideoAction[] => {
     if (isAdmin) {
       return [
@@ -72,7 +85,7 @@ const TemplateGrid = ({ templates }: { templates: Template[] }) => {
     return [
       {
         label: "Buy",
-        onClick: () => buyTemplate(template.id),
+        onClick: () => requestPurchase(template),
         icon: <ShoppingCartIcon />,
       },
     ];
@@ -110,12 +123,41 @@ const TemplateGrid = ({ templates }: { templates: Template[] }) => {
       )}
 
       {pendingAction?.type === "edit" && (
-        <EditTemplateModal
+        <ModalTemplate
           title="Edit template"
           description=""
-          template={pendingAction.template}
           closeModal={() => setPendingAction(null)}
-        />
+        >
+          <EditTemplateForm
+            template={pendingAction.template}
+            onSuccess={() => setPendingAction(null)}
+            onError={() => setPendingAction(null)}
+          />
+        </ModalTemplate>
+      )}
+
+      {pendingAction?.type === "buy" && (
+        <ModalTemplate
+          title={`Buy ${pendingAction.template.title}`}
+          description=""
+          closeModal={() => setPendingAction(null)}
+        >
+          <div className="grid grid-cols-12 gap-2">
+            <div className="col-span-6">
+              <StripeCheckoutForm
+                key={sessionKey}
+                template={pendingAction.template}
+              />
+            </div>
+            <div className="col-span-6">
+              <Video
+                posterUrl={pendingAction.template.posterUrl}
+                videoUrl={pendingAction.template.videoUrl}
+                mode={"loop"}
+              />
+            </div>
+          </div>
+        </ModalTemplate>
       )}
     </div>
   );

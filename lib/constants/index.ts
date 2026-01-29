@@ -5,6 +5,7 @@ import IconVertical from "@/components/icons/IconVertical";
 export const endpoint = {
   cloudinarySigning: "/api/sign-cloudinary-params",
   templates: "/api/templates",
+  createSession: "/create-checkout-session",
 };
 
 // QUERY KEYS
@@ -36,4 +37,9 @@ export const CATEGORY_TYPE = [
 
 export const params = {
   FILTER: "filter",
+};
+
+export const product = {
+  price: 9900, //cents
+  currency: "usd",
 };

@@ -13,10 +13,15 @@ type EditTemplateFormProps = {
     posterUrl: string;
     videoUrl: string;
   };
-  closeModal: () => void;
+  onSuccess: () => void;
+  onError: () => void;
 };
 
-const EditTemplateForm = ({ template, closeModal }: EditTemplateFormProps) => {
+const EditTemplateForm = ({
+  template,
+  onSuccess,
+  onError,
+}: EditTemplateFormProps) => {
   const { mutateAsync, isPending } = useUpdateTemplate();
 
   return (
@@ -48,10 +53,11 @@ const EditTemplateForm = ({ template, closeModal }: EditTemplateFormProps) => {
           { formData, onProgress },
           {
             onSuccess: () => {
-              closeModal();
+              onSuccess();
               toast.success("Template updated");
             },
             onError: () => {
+              onError();
               toast.warn("Template could not be updated");
             },
           },
