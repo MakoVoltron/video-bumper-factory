@@ -16,6 +16,7 @@ export const queryKey = {
 // CLOUDINARY PRESETS
 export const cloudinaryPreset = {
   videoPreview: "video_template_preview",
+  user_logo_upload: "user_logo_upload",
 };
 
 export const APP = {
@@ -37,9 +38,16 @@ export const CATEGORY_TYPE = [
 
 export const params = {
   FILTER: "filter",
+  PAYMENT_INTENT: "payment_intent", // as per requested by Stripe
+  PAYMENT_INTENT_ID: "paymentIntentId",
 };
 
 export const product = {
   price: 9900, //cents
   currency: "usd",
+};
+
+export const route = {
+  success: "/payment/success",
+  paymentIntent: "/payment-intent/",
 };

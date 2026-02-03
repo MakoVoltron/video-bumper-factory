@@ -1,7 +1,7 @@
 "use client";
 
 import { axiosClient } from "@/lib/axios";
-import { endpoint, product } from "@/lib/constants";
+import { endpoint, product, route } from "@/lib/constants";
 import { Template } from "@/types/video";
 import { useEffect, useState } from "react";
 import {
@@ -35,7 +35,7 @@ const StripeFormInner = ({ onSuccess, onError }: StripeCheckoutFormProps) => {
     const result = await stripe.confirmPayment({
       elements,
       confirmParams: {
-        return_url: `${window.location.origin}/success`,
+        return_url: `${window.location.origin}${route.success}`,
         receipt_email: email,
       },
     });
@@ -66,7 +66,7 @@ const StripeFormInner = ({ onSuccess, onError }: StripeCheckoutFormProps) => {
       </div>
 
       <div>
-        <PaymentElement />
+        <PaymentElement options={{ wallets: { link: "never" } }} />
       </div>
 
       <button

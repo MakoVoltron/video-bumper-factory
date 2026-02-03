@@ -1,16 +1,21 @@
 "use client";
 
-import { endpoint } from "@/lib/constants";
+import { endpoint, params } from "@/lib/constants";
 import { CldUploadWidget, CloudinaryUploadWidgetInfo } from "next-cloudinary";
 import { useState } from "react";
 import { cloudinaryPreset } from "@/lib/constants";
 
 type UploadWidgetProps = {
   btnText?: string;
-  preset: (typeof cloudinaryPreset)[keyof typeof cloudinaryPreset];
+  preset?: (typeof cloudinaryPreset)[keyof typeof cloudinaryPreset];
+  paymentIntentId: string;
 };
 
-const UploadWidget = ({ btnText = "Upload", preset }: UploadWidgetProps) => {
+const UploadWidget = ({
+  btnText = "Upload",
+  preset,
+  paymentIntentId,
+}: UploadWidgetProps) => {
   const [resource, setResource] = useState<
     CloudinaryUploadWidgetInfo | string
   >();
@@ -20,16 +25,21 @@ const UploadWidget = ({ btnText = "Upload", preset }: UploadWidgetProps) => {
 
   return (
     <CldUploadWidget
-      signatureEndpoint={endpoint.cloudinarySigning}
+      // signatureEndpoint={`${endpoint.cloudinarySigning}?${params.PAYMENT_INTENT_ID}=${paymentIntentId}`}
       uploadPreset={preset}
-      options={{ sources: ["local"], clientAllowedFormats: ["image"] }}
-      onSuccess={(result, { widget }) => {
+      options={{
+        sources: ["local"],
+        clientAllowedFormats: ["image"],
+        multiple: true,
+        folder: `videobumper/orders/${paymentIntentId}`,
+      }}
+      onSuccess={(result) => {
         console.log(result);
         setResource(result?.info);
       }}
-      onQueuesEnd={(result, { widget }) => {
-        // widget.close();
-      }}
+      // onQueuesEnd={(result, { widget }) => {
+      //   widget.close();
+      // }}
     >
       {({ open }) => {
         const handleOnClick = () => {

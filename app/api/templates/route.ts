@@ -6,8 +6,6 @@ import cloudinary from "@/lib/upload/cloudinary";
 import { params } from "@/lib/constants";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
-import { redirect } from "next/navigation";
-import { error } from "console";
 
 export async function GET(req: Request) {
   const url = new URL(req.url);
