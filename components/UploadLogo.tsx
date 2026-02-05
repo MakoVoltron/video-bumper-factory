@@ -2,22 +2,50 @@
 
 import { axiosClient } from "@/lib/axios";
 import { params } from "@/lib/constants";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { UploadedLogoResponse } from "@/types/api";
+import { X } from "lucide-react";
 
 type Props = {
   paymentIntentId: string;
 };
+
+type Preview =
+  | { kind: "image"; file: File; url: string }
+  | { kind: "file"; file: File };
 
 const UploadLogo = ({ paymentIntentId }: Props) => {
   const [files, setFiles] = useState<File[]>([]);
   const [uploading, setUploading] = useState(false);
   const [uploaded, setUploaded] = useState<string[]>([]);
 
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  console.log(files);
+
+  const previews: Preview[] = files.map((file) =>
+    file.type.startsWith("image/")
+      ? { kind: "image", file, url: URL.createObjectURL(file) }
+      : { kind: "file", file },
+  );
+
+  /* ---- Cleanup previews ---- */
+  useEffect(() => {
+    return () => {
+      previews.forEach((p) => {
+        if (p.kind === "image") URL.revokeObjectURL(p.url);
+      });
+    };
+  }, [previews]);
+
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!e.target.files) return;
-    setFiles(Array.from(e.target.files));
+    const selectedFiles = e.currentTarget.files;
+    if (!selectedFiles) return;
+
+    const safeFiles = Array.from(selectedFiles);
+
+    setFiles(safeFiles);
   };
 
   const onUpload = async () => {
@@ -45,9 +73,24 @@ const UploadLogo = ({ paymentIntentId }: Props) => {
     setFiles([]);
   };
 
+  const removeImage = (index: number) => {
+    setFiles((prev) => prev.filter((_, i) => i !== index));
+
+    // Reset the input so browser label updates
+    if (inputRef.current) {
+      inputRef.current.value = "";
+    }
+  };
+
   return (
     <div>
-      <input type="file" accept="image/*" multiple onChange={onChange} />
+      <input
+        ref={inputRef}
+        type="file"
+        accept=".png, .jpg, .jpeg,.zip,.ai,.psd"
+        multiple
+        onChange={onChange}
+      />
 
       <button
         disabled={!files.length || uploading}
@@ -56,6 +99,35 @@ const UploadLogo = ({ paymentIntentId }: Props) => {
       >
         {uploading ? "Uploading..." : "Upload"}
       </button>
+
+      {/* --- Preview before upload --- */}
+      {previews.length > 0 && (
+        <div className="grid grid-cols-3 gap-2 mt-2">
+          {previews.map((p, i) => (
+            <div
+              key={p.file.name}
+              className="relative  rounded p-2 h-26 bg-amber-100"
+            >
+              <span
+                onClick={() => removeImage(i)}
+                className="bg-red-500 rounded-full p-1 flex justify-center items-center size-5 absolute -top-1 -right-1 z-40 cursor-pointer"
+              >
+                <X />
+              </span>
+              {p.kind === "image" ? (
+                <Image
+                  src={p.url}
+                  alt={p.file.name}
+                  fill
+                  className="object-contain"
+                />
+              ) : (
+                <span className="text-sm text-gray-700">{p.file.name}</span>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
 
       {uploaded.length > 0 && (
         <div className="grid grid-cols-3 gap-4">
