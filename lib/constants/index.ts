@@ -19,6 +19,8 @@ export const cloudinaryPreset = {
   user_logo_upload: "user_logo_upload",
 };
 
+export const MAX_FILE_SIZE_MB = 40 * 1024 * 1024;
+
 export const APP = {
   NAME: process.env.NEXT_PUBLIC_APP_NAME || "Video Bumper Factory",
   DESCRIPTION: "We Turn Your Logo Into an Animation",

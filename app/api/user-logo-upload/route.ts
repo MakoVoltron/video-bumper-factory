@@ -1,11 +1,7 @@
 import { v2 as cloudinary } from "cloudinary";
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
-import formidable, { File as FormidableFile } from "formidable";
-import { IncomingMessage } from "http";
-import { params } from "@/lib/constants";
-import { error } from "console";
-import { email } from "zod";
+import { MAX_FILE_SIZE_MB, params } from "@/lib/constants";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
@@ -14,41 +10,6 @@ cloudinary.config({
   api_key: process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
-
-/* -------------------- Helpers -------------------- */
-function parseForm(req: IncomingMessage): Promise<{
-  fields: formidable.Fields;
-  files: formidable.Files;
-}> {
-  const form = formidable({
-    allowEmptyFiles: false,
-    multiples: true,
-    keepExtensions: true,
-    maxFileSize: 5 * 1024 * 1024,
-  });
-
-  return new Promise((resolve, reject) => {
-    form.parse(req, (err, fields, files) => {
-      if (err) reject(err);
-      else resolve({ fields, files });
-    });
-  });
-}
-
-function getStringField(fields: formidable.Fields, key: string): string {
-  const value = fields[key];
-  if (typeof value !== "string") {
-    throw new Error(`Missing or invalid ${key}`);
-  }
-  return value;
-}
-
-function normalizeFiles(
-  input?: FormidableFile | FormidableFile[],
-): FormidableFile[] {
-  if (!input) return [];
-  return Array.isArray(input) ? input : [input];
-}
 
 export const POST = async (req: NextRequest) => {
   const formData = await req.formData();
@@ -70,6 +31,15 @@ export const POST = async (req: NextRequest) => {
     return NextResponse.json({ error: "No files uploaded" }, { status: 400 });
   }
 
+  for (const file of files) {
+    if (file.size > MAX_FILE_SIZE_MB * 1024 * 1024) {
+      return NextResponse.json(
+        { error: `File ${file.name} exceeds ${MAX_FILE_SIZE_MB} MB limit` },
+        { status: 413 },
+      );
+    }
+  }
+
   /* ---- Verify Stripe payment ---- */
   const intent = await stripe.paymentIntents.retrieve(paymentIntentId);
 
@@ -87,14 +57,15 @@ export const POST = async (req: NextRequest) => {
           cloudinary.uploader
             .upload_stream(
               {
-                folder: `videobumper/orders/${intent.id}`,
+                folder: `videobumper/orders/${intent.receipt_email}`,
                 public_id: files.length === 1 ? "logo" : `logo_${index + 1}`,
                 overwrite: true,
-                resource_type: "image",
+                resource_type: "auto",
                 context: {
                   orderId: intent.id,
-                  email: intent.receipt_email ?? "",
+                  email: intent.receipt_email,
                   amount: intent.amount,
+                  template: intent.metadata.templateTitle,
                 },
               },
               (err, result) => {
