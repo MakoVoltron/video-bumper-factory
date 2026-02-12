@@ -57,7 +57,8 @@ export default async function RootLayout({
           <AdminProvider value={{ isAdmin }}>
             <div className="flex flex-col min-h-screen justify-center items-center bg-zinc-50 font-sans dark:bg-black ">
               {session && <AdminNavbar />}
-              <main className="flex w-full flex-col items-center"></main>
+              {/* <main className="flex w-full flex-col items-center"></main> */}
+
               <AuthToast />
               {children}
               <ToastContainer />

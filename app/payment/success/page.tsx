@@ -72,7 +72,7 @@ const SuccessPage = () => {
   if (!data || !paymentIntentId) return <div>Payment not found</div>;
 
   return (
-    <div>
+    <div className="w-md md:w-xl p-4">
       <h2 className="text-2xl font-bold">Thank you for your payment!</h2>
       <p>Now, please, upload your logo file below:</p>
       <div>{data.templateTitle}</div>

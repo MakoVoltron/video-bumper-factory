@@ -1,7 +1,7 @@
 "use client";
 
 import { axiosClient } from "@/lib/axios";
-import { params } from "@/lib/constants";
+import { acceptedFiles, MAX_FILE_SIZE_MB, params } from "@/lib/constants";
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { UploadedLogoResponse } from "@/types/api";
@@ -19,6 +19,7 @@ const UploadLogo = ({ paymentIntentId }: Props) => {
   const [files, setFiles] = useState<File[]>([]);
   const [uploading, setUploading] = useState(false);
   const [uploaded, setUploaded] = useState<string[]>([]);
+  const [isDragging, setIsDragging] = useState(false);
 
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -46,6 +47,29 @@ const UploadLogo = ({ paymentIntentId }: Props) => {
     const safeFiles = Array.from(selectedFiles);
 
     setFiles(safeFiles);
+  };
+
+  const handleDrop = (e: React.DragEvent<HTMLLabelElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    setIsDragging(false);
+
+    const files = e.dataTransfer.files;
+    if (files && files.length > 0) {
+      const fileArray = Array.from(files);
+      setFiles(fileArray);
+      e.dataTransfer.clearData();
+    }
+  };
+
+  const handleDragOver = (e: React.DragEvent<HTMLLabelElement>) => {
+    e.preventDefault();
+    setIsDragging(true);
+  };
+
+  const handleDragLeave = () => {
+    setIsDragging(false);
   };
 
   const onUpload = async () => {
@@ -83,51 +107,64 @@ const UploadLogo = ({ paymentIntentId }: Props) => {
   };
 
   return (
-    <div>
-      <input
-        ref={inputRef}
-        type="file"
-        accept=".png, .jpg, .jpeg,.zip,.ai,.psd"
-        multiple
-        onChange={onChange}
-      />
+    <div className="space-y-3">
+      <label
+        onDrop={handleDrop}
+        onDragOver={handleDragOver}
+        onDragLeave={handleDragLeave}
+        className={`h-[275px] my-2 rounded-md border-2 border-dotted text-emerald-500 border-emerald-500 hover:border-emerald-200 hover:text-emerald-200 ${isDragging && "border-emerald-200"}  transition duration-300 cursor-pointer flex  justify-center items-center`}
+      >
+        <input
+          ref={inputRef}
+          type="file"
+          accept={acceptedFiles}
+          multiple
+          onChange={onChange}
+          className="hidden"
+        />
+        <div className="text-center">
+          <p>Upload your logo files here</p>
+          <p className="text-xs">
+            Max file size: {MAX_FILE_SIZE_MB}MB / {acceptedFiles}
+          </p>
+        </div>
+      </label>
 
       <button
         disabled={!files.length || uploading}
         onClick={onUpload}
-        className="bg-purple-600 px-4 py-2 rounded-xl text-white disabled:opacity-50"
+        className="w-full bg-purple-600 hover:bg-purple-600/80 transition duration-500 cursor-pointer px-4 py-2 rounded-xl text-white disabled:opacity-50"
       >
         {uploading ? "Uploading..." : "Upload"}
       </button>
 
       {/* --- Preview before upload --- */}
-      {previews.length > 0 && (
-        <div className="grid grid-cols-3 gap-2 mt-2">
-          {previews.map((p, i) => (
-            <div
-              key={p.file.name}
-              className="relative  rounded p-2 h-26 bg-amber-100"
-            >
-              <span
-                onClick={() => removeImage(i)}
-                className="bg-red-500 rounded-full p-1 flex justify-center items-center size-5 absolute -top-1 -right-1 z-40 cursor-pointer"
-              >
-                <X />
-              </span>
-              {p.kind === "image" ? (
-                <Image
-                  src={p.url}
-                  alt={p.file.name}
-                  fill
-                  className="object-contain"
-                />
-              ) : (
-                <span className="text-sm text-gray-700">{p.file.name}</span>
-              )}
-            </div>
-          ))}
-        </div>
-      )}
+      <div className="mt-2 h-26 ">
+        {previews.length > 0 && (
+          <div className="grid grid-cols-3 gap-2">
+            {previews.map((p, i) => (
+              <div key={p.file.name} className="relative rounded h-26 bg-white">
+                <span
+                  onClick={() => removeImage(i)}
+                  className="bg-red-500 hover:bg-red-600 transition duration-500 rounded-full p-1 flex justify-center items-center size-5 absolute top-0 right-0 translate-x-1/2 -translate-y-1/2 z-40 cursor-pointer group "
+                >
+                  <X className="group-hover:scale-125 transition duration-500" />
+                </span>
+                {p.kind === "image" ? (
+                  <Image
+                    src={p.url}
+                    alt={p.file.name}
+                    fill
+                    className="object-cover"
+                  />
+                ) : (
+                  <span className="text-sm text-gray-700">{p.file.name}</span>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
 
       {uploaded.length > 0 && (
         <div className="grid grid-cols-3 gap-4">
