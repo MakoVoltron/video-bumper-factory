@@ -32,7 +32,7 @@ const SuccessPage = () => {
     const fetchPayment = async () => {
       try {
         const res = await axiosClient.get<PurchaseSummary>(
-          `${route.paymentIntent}${paymentIntentId}`,
+          `${route.paymentIntent}/${paymentIntentId}`,
         );
 
         if (mounted) {

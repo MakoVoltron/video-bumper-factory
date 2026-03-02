@@ -42,7 +42,7 @@ const Hero = () => {
               </span>
             </div> */}
           <div className="mt-5">
-            <Button text="Start now only for $99" />
+            <Button text="Start now only for $99" target="templates" />
           </div>
         </div>
       </div>

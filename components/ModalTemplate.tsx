@@ -10,7 +10,7 @@ type ModalTemplateProps = {
 
 const ModalTemplate = ({ closeModal, title, children }: ModalTemplateProps) => {
   return (
-    <div className="fixed inset-0 bg-black/50 flex justify-center items-center overflow-hidden">
+    <div className="fixed inset-0 bg-black/50 flex justify-center items-center overflow-hidden z-100">
       <div className="theme-light bg-bg text-fg p-6 rounded space-y-4 w-[800px] overflow-y-auto max-h-[90vh]">
         <div className="flex justify-between">
           <h3 className="font-bold">{title}</h3>

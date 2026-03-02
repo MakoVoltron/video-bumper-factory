@@ -50,7 +50,7 @@ const StripeFormInner = ({ onSuccess, onError }: StripeCheckoutFormProps) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-2">
+    <form onSubmit={handleSubmit} className="space-y-2 z-100">
       <div>
         <input
           className="p-3 border border-gray-200 rounded-md w-full bg-white"
@@ -116,13 +116,13 @@ const StripeCheckoutForm = ({ template }: { template: Template }) => {
   }
 
   return (
-    <div>
+    <>
       {clientSecret && (
         <Elements stripe={stripePromise} options={{ clientSecret }}>
           <StripeFormInner />
         </Elements>
       )}
-    </div>
+    </>
   );
 };
 

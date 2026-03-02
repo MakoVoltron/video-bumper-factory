@@ -5,7 +5,7 @@ import Video from "./ui/Video";
 import { useAdmin } from "@/lib/context/AdminContext";
 import { Edit, ShoppingCartIcon, Trash } from "lucide-react";
 import { VideoAction } from "@/types/video";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import ConfirmModal from "./ui/ConfirmModal";
 import { useDeleteTemplate } from "@/hooks/useDeleteTemplate";
 import { toast } from "react-toastify";

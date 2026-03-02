@@ -1,11 +1,16 @@
 import IconHorizontal from "@/components/icons/IconHorizontal";
 import IconVertical from "@/components/icons/IconVertical";
 
+// DEFAULTS
+export const defaultValues = {
+  emailFrom: "onboarding@resend.dev",
+};
+
 // ENDPOINTS
 export const endpoint = {
-  cloudinarySigning: "/api/sign-cloudinary-params",
+  cloudinarySigning: "/sign-cloudinary-params",
   templates: "/api/templates",
-  createSession: "/create-checkout-session",
+  createSession: "/stripe/create-checkout-session",
 };
 
 // QUERY KEYS
@@ -51,7 +56,7 @@ export const product = {
 
 export const route = {
   success: "/payment/success",
-  paymentIntent: "/payment-intent/",
+  paymentIntent: "/stripe/payment-intent",
 };
 
 export const acceptedFiles = ".png, .jpg, .jpeg, .zip, .ai, .psd";
