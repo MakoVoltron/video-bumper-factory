@@ -10,7 +10,8 @@ type Input = {
   cols?: "12" | "8" | "6" | "4";
   validated?: boolean;
   label?: string;
-  accept?: "image/png" | "video/mp4";
+  accept?: string;
+  // accept?: "image/png" | "video/mp4" | "image/jpg";
   value?: string;
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
 };

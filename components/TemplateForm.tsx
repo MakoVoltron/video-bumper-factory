@@ -35,7 +35,6 @@ type TemplateFormProps = {
 const TemplateForm = ({
   submitLabel,
   initialValues,
-  //   isSubmitting,
   mode = "hover",
   onSubmit,
 }: TemplateFormProps) => {
@@ -111,7 +110,7 @@ const TemplateForm = ({
               type="file"
               cols="6"
               validated={!!posterPreview}
-              accept="image/png"
+              accept="image/jpg, image/png"
             />
             <Input
               onChange={handleChange}
