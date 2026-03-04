@@ -23,6 +23,7 @@ export type VideoPreviewProps = Pick<Template, "posterUrl" | "videoUrl"> & {
   mode?: VideoMode;
   actions?: VideoAction[];
   onClick?: () => void;
+  title?: string;
 };
 
 export type UploadTemplateProps = {

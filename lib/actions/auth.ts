@@ -69,28 +69,6 @@ export async function signInAction(formData: FormData) {
   }
 }
 
-// export async function signInAction(
-//   prevState: SignInState,
-//   formData: FormData
-// ): Promise<SignInState> {
-//   const email = formData.get("email") as string;
-//   const password = formData.get("password") as string;
-
-//   try {
-//     await auth.api.signInEmail({
-//       body: { email, password },
-//       headers: await headers(),
-//     });
-
-//     return { success: true, message: "You were logged in" };
-//   } catch (error) {
-//     return {
-//       success: false,
-//       message: extractAuthErrorMessage(error),
-//     };
-//   }
-// }
-
 export async function signOut() {
   await auth.api.signOut({
     headers: await headers(),

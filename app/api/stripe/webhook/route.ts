@@ -51,16 +51,14 @@ export async function POST(req: Request) {
     const paymentIntent = event.data.object as Stripe.PaymentIntent;
 
     const email = paymentIntent.receipt_email;
-    const templateId = paymentIntent.metadata.templateId;
+    // const templateId = paymentIntent.metadata.templateId;
     const templateTitle = paymentIntent.metadata.templateTitle;
-    const amount = paymentIntent.amount;
 
     if (email) {
       await sendOrderConfirmation({
         to: email,
-        orderId: paymentIntent.id,
-        amount,
         payment_intent: paymentIntent.id,
+        templateTitle,
       });
     }
   }

@@ -5,16 +5,14 @@ const resend = new Resend(process.env.RESEND_API_KEY!);
 
 interface OrderParams {
   to: string;
-  orderId: string;
-  amount: number;
   payment_intent: string;
+  templateTitle: string;
 }
 
 export async function sendOrderConfirmation({
   to,
-  orderId,
-  amount,
   payment_intent,
+  templateTitle,
 }: OrderParams) {
   console.log("sending email...");
 
@@ -22,13 +20,16 @@ export async function sendOrderConfirmation({
     await resend.emails.send({
       from: `${APP.NAME} <${defaultValues.emailFrom}>`,
       to,
-      subject: `Order #${orderId} confirmed`,
+      subject: `Order placed! Now we need your logo!`,
       html: `
-        <h1>Thank you for your purchase</h1>
-        <p>Your order <strong>#${orderId}</strong> has been confirmed.</p>
-        <p>Total paid: ${(amount / 100).toFixed(2)} €</p>
-        <p>Please, upload your logo files in the link below:</p>
-        <a href='${APP.URL}/payment/success?${params.PAYMENT_INTENT}=${payment_intent}' >Upload logo</a>
+        <h2>Thank you for your payment</h2>
+        <p>Your order <strong>#${templateTitle}</strong> has been confirmed.</p>
+        <p>In order to start working on your video bumper, please, upload your logo files in the link below:</p>
+        <a href='${APP.URL}/payment/success?${params.PAYMENT_INTENT}=${payment_intent}'>👉 Upload logo</a>
+        <p>After receiving your logo, we'll get back to you within 48 hours with finished bumper. </p>
+        <p><em>Note: For the best results, please, upload PNG file without background or .PSD/.AI project files.</em></p>
+        <p>With love, Mate from Video Bumper Factory</p>
+
         `,
     });
   } catch (error) {

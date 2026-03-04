@@ -5,8 +5,6 @@ import localFont from "next/font/local";
 import { APP } from "../lib/constants";
 import { headers } from "next/headers";
 import { auth } from "@/lib/auth";
-import Button from "@/components/ui/Button";
-import { signOut } from "@/lib/actions/auth";
 import { ToastContainer } from "react-toastify";
 import AuthToast from "@/components/helpers/AuthToast";
 import Providers from "./providers";
@@ -45,9 +43,6 @@ export default async function RootLayout({
 
   const isAdmin = session?.user.role === "ADMIN";
 
-  console.log("session");
-  console.log(session);
-
   return (
     <html lang="en">
       <body
@@ -57,7 +52,6 @@ export default async function RootLayout({
           <AdminProvider value={{ isAdmin }}>
             <div className="flex flex-col min-h-screen justify-center items-center bg-zinc-50 font-sans dark:bg-black ">
               {session && <AdminNavbar />}
-              {/* <main className="flex w-full flex-col items-center"></main> */}
 
               <AuthToast />
               {children}

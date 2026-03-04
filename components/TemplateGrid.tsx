@@ -36,14 +36,6 @@ const TemplateGrid = ({ templates }: { templates: Template[] }) => {
 
   const deleteMutation = useDeleteTemplate();
 
-  const buyTemplate = (id: string) => {
-    alert(`BUY THIS ID: ${id}`);
-  };
-
-  const editTemplate = (id: string) => {
-    alert(`EDIT TEMPLATE ID: ${id}`);
-  };
-
   const requestDelete = (template: Template) => {
     setPendingAction({
       type: "delete",
@@ -154,6 +146,7 @@ const TemplateGrid = ({ templates }: { templates: Template[] }) => {
                 posterUrl={pendingAction.template.posterUrl}
                 videoUrl={pendingAction.template.videoUrl}
                 mode={"loop"}
+                title={pendingAction.template.title}
               />
             </div>
           </div>

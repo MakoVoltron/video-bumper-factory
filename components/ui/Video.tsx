@@ -12,6 +12,7 @@ const Video = ({
   mute = true,
   mode = "hover",
   actions,
+  title,
 }: VideoPreviewProps) => {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [isPlaying, setIsPlaying] = useState(mode === "loop");
@@ -55,9 +56,9 @@ const Video = ({
       {/* posterUrl */}
       <Image
         src={posterUrl}
-        alt=""
+        alt={title ?? "poster"}
         fill
-        sizes="(max-width: 500px) 100vw, 33vw"
+        // sizes="(max-width: 500px) 100vw, 33vw"
         className={cn(
           "object-cover group-hover/video:opacity-0 grayscale hover:grayscale-0 transition-opacity duration-200 pointer-events-none",
           isPlaying ? "opacity-0" : "opacity-100",
@@ -78,13 +79,6 @@ const Video = ({
         onMouseEnter={mode === "hover" ? handlePlay : undefined}
         onMouseLeave={mode === "hover" ? handleStop : undefined}
         onPlay={() => setIsPlaying(true)}
-        // onMouseEnter={(e) => e.currentTarget.play()}
-        // onMouseLeave={(e) => {
-        //   const video = e.currentTarget;
-        //   video.pause();
-        //   video.currentTime = 0;
-        //   // video.load();
-        // }}
       />
     </div>
   );
