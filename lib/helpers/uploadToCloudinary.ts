@@ -8,7 +8,7 @@ export async function uploadToCloudinary(
 ): Promise<UploadApiResponse | undefined> {
   const buffer = Buffer.from(await file.arrayBuffer());
 
-  const cloudinary = getCloudinary();
+  const cloudinary = await getCloudinary();
 
   return new Promise((resolve, reject) => {
     cloudinary.uploader

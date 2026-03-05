@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 import getCloudinary from "@/lib/upload/cloudinary";
 
 export async function POST(req: Request) {
-  const cloudinary = getCloudinary();
+  const cloudinary = await getCloudinary();
 
   const formData = await req.formData();
   const posterFile = formData.get("poster") as File | null;

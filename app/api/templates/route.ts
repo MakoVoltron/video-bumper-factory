@@ -35,7 +35,7 @@ type UpdatedData = {
 };
 
 export async function POST(req: Request) {
-  const cloudinary = getCloudinary();
+  const cloudinary = await getCloudinary();
 
   const formData = await req.formData();
 
@@ -92,7 +92,7 @@ export async function POST(req: Request) {
 
 export async function PUT(req: Request) {
   const session = await auth.api.getSession({ headers: await headers() });
-  const cloudinary = getCloudinary();
+  const cloudinary = await getCloudinary();
 
   if (!session) {
     return NextResponse.json({ error: "Unauthenticated" }, { status: 401 });

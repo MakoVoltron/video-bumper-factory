@@ -10,7 +10,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 export const POST = async (req: NextRequest) => {
   const formData = await req.formData();
 
-  const cloudinary = getCloudinary();
+  const cloudinary = await getCloudinary();
 
   const paymentIntentId = formData.get(params.PAYMENT_INTENT_ID);
 
