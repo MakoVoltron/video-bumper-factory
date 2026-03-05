@@ -2,10 +2,10 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db/client";
 import { uploadToCloudinary } from "@/lib/helpers/uploadToCloudinary";
 import { UploadApiResponse } from "cloudinary";
-import cloudinary from "@/lib/upload/cloudinary";
 import { params } from "@/lib/constants";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
+import getCloudinary from "@/lib/upload/cloudinary";
 
 export async function GET(req: Request) {
   const url = new URL(req.url);
@@ -33,6 +33,8 @@ type UpdatedData = {
 };
 
 export async function POST(req: Request) {
+  const cloudinary = getCloudinary();
+
   const formData = await req.formData();
 
   const title = formData.get("title") as string;
@@ -88,6 +90,7 @@ export async function POST(req: Request) {
 
 export async function PUT(req: Request) {
   const session = await auth.api.getSession({ headers: await headers() });
+  const cloudinary = getCloudinary();
 
   if (!session) {
     return NextResponse.json({ error: "Unauthenticated" }, { status: 401 });

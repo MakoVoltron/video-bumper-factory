@@ -1,12 +1,14 @@
 import { UploadApiResponse } from "cloudinary";
-import cloudinary from "../upload/cloudinary";
+import getCloudinary from "../upload/cloudinary";
 
 export async function uploadToCloudinary(
   file: File,
   type: "image" | "video",
-  folder?: string
+  folder?: string,
 ): Promise<UploadApiResponse | undefined> {
   const buffer = Buffer.from(await file.arrayBuffer());
+
+  const cloudinary = getCloudinary();
 
   return new Promise((resolve, reject) => {
     cloudinary.uploader
@@ -18,7 +20,7 @@ export async function uploadToCloudinary(
         (error, result) => {
           if (error) reject(error);
           else resolve(result);
-        }
+        },
       )
       .end(buffer);
   });

@@ -1,18 +1,14 @@
-import { v2 as cloudinary } from "cloudinary";
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 import { MAX_FILE_SIZE_MB, params } from "@/lib/constants";
+import getCloudinary from "@/lib/upload/cloudinary";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
-cloudinary.config({
-  cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
-});
-
 export const POST = async (req: NextRequest) => {
   const formData = await req.formData();
+
+  const cloudinary = getCloudinary();
 
   const paymentIntentId = formData.get(params.PAYMENT_INTENT_ID);
 
