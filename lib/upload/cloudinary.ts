@@ -1,8 +1,7 @@
-type CloudinaryV2 = typeof import("cloudinary").v2;
+/* eslint-disable @typescript-eslint/no-explicit-any */
+let cloudinaryInstance: any = null;
 
-let cloudinaryInstance: CloudinaryV2 | null = null;
-
-const getCloudinary = async (): Promise<CloudinaryV2> => {
+const getCloudinary = async () => {
   if (!cloudinaryInstance) {
     const { v2: cloudinary } = await import("cloudinary");
     cloudinary.config({

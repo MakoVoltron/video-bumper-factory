@@ -22,7 +22,7 @@ export async function uploadToCloudinary(
           resource_type: type,
           folder: folder ?? "videobumper",
         },
-        (error, result) => {
+        (error: Error | null, result: CloudinaryUploadResult | undefined) => {
           if (error) reject(error);
           else resolve(result);
         },
