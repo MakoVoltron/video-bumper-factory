@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { product } from "@/lib/constants";
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
