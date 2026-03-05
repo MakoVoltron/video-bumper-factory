@@ -2,7 +2,7 @@ export const dynamic = "force-dynamic";
 
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db/client";
-import { uploadToCloudinary } from "@/lib/helpers/uploadToCloudinary";
+import type { uploadToCloudinary } from "@/lib/helpers/uploadToCloudinary";
 import { UploadApiResponse } from "cloudinary";
 import { params } from "@/lib/constants";
 import { auth } from "@/lib/auth";

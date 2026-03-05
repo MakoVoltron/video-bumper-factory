@@ -1,4 +1,4 @@
-import { UploadApiResponse } from "cloudinary";
+import type { UploadApiResponse } from "cloudinary";
 import getCloudinary from "@/lib/upload/cloudinary";
 
 export async function uploadToCloudinary(
