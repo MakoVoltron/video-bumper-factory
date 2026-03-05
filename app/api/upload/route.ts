@@ -1,8 +1,8 @@
 export const dynamic = "force-dynamic";
 
 import { NextResponse } from "next/server";
+import type { UploadApiResponse } from "cloudinary";
 import getCloudinary from "@/lib/upload/cloudinary";
-import { CloudinaryUploadResult } from "@/lib/helpers/uploadToCloudinary";
 
 export async function POST(req: Request) {
   const cloudinary = await getCloudinary();
@@ -16,25 +16,27 @@ export async function POST(req: Request) {
 
   const posterBuffer = Buffer.from(await posterFile.arrayBuffer());
 
-  const result = await new Promise((resolve, reject) => {
-    cloudinary.uploader
-      .upload_stream(
-        {
-          folder: "videobumper",
-          resource_type: posterFile.type.startsWith("video/")
-            ? "video"
-            : "image",
-        },
-        (error: Error | null, result: CloudinaryUploadResult | undefined) => {
-          if (error) {
-            reject(error);
-          } else {
-            resolve(result);
-          }
-        },
-      )
-      .end(posterBuffer);
-  });
+  const result = await new Promise<UploadApiResponse | undefined>(
+    (resolve, reject) => {
+      cloudinary.uploader
+        .upload_stream(
+          {
+            folder: "videobumper",
+            resource_type: posterFile.type.startsWith("video/")
+              ? "video"
+              : "image",
+          },
+          (error, result) => {
+            if (error) {
+              reject(error);
+            } else {
+              resolve(result);
+            }
+          },
+        )
+        .end(posterBuffer);
+    },
+  );
 
   return NextResponse.json(result);
 }

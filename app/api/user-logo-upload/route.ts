@@ -1,10 +1,10 @@
 export const dynamic = "force-dynamic";
 
 import { NextRequest, NextResponse } from "next/server";
+import type { UploadApiResponse } from "cloudinary";
 import Stripe from "stripe";
 import { MAX_FILE_SIZE_MB, params } from "@/lib/constants";
 import getCloudinary from "@/lib/upload/cloudinary";
-import { CloudinaryUploadResult } from "@/lib/helpers/uploadToCloudinary";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
@@ -51,33 +51,28 @@ export const POST = async (req: NextRequest) => {
     files.map(async (file, index) => {
       const buffer = Buffer.from(await file.arrayBuffer());
 
-      return new Promise<{ public_id: string; secure_url: string }>(
-        (resolve, reject) => {
-          cloudinary.uploader
-            .upload_stream(
-              {
-                folder: `videobumper/orders/${intent.receipt_email}`,
-                public_id: files.length === 1 ? "logo" : `logo_${index + 1}`,
-                overwrite: true,
-                resource_type: "auto",
-                context: {
-                  orderId: intent.id,
-                  email: intent.receipt_email,
-                  amount: intent.amount,
-                  template: intent.metadata.templateTitle,
-                },
+      return new Promise<UploadApiResponse>((resolve, reject) => {
+        cloudinary.uploader
+          .upload_stream(
+            {
+              folder: `videobumper/orders/${intent.receipt_email}`,
+              public_id: files.length === 1 ? "logo" : `logo_${index + 1}`,
+              overwrite: true,
+              resource_type: "auto",
+              context: {
+                orderId: intent.id,
+                email: intent.receipt_email,
+                amount: intent.amount,
+                template: intent.metadata.templateTitle,
               },
-              (
-                err: Error | null,
-                result: CloudinaryUploadResult | undefined,
-              ) => {
-                if (err || !result) reject(err);
-                else resolve(result);
-              },
-            )
-            .end(buffer);
-        },
-      );
+            },
+            (err, result) => {
+              if (err || !result) reject(err);
+              else resolve(result);
+            },
+          )
+          .end(buffer);
+      });
     }),
   );
 

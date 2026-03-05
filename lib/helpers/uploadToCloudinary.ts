@@ -1,16 +1,11 @@
-// import type { UploadApiResponse } from "cloudinary";
+import type { UploadApiResponse } from "cloudinary";
 import getCloudinary from "@/lib/upload/cloudinary";
-
-export type CloudinaryUploadResult = {
-  secure_url: string;
-  public_id: string;
-};
 
 export async function uploadToCloudinary(
   file: File,
   type: "image" | "video",
   folder?: string,
-): Promise<CloudinaryUploadResult | undefined> {
+): Promise<UploadApiResponse | undefined> {
   const buffer = Buffer.from(await file.arrayBuffer());
 
   const cloudinary = await getCloudinary();
@@ -22,7 +17,7 @@ export async function uploadToCloudinary(
           resource_type: type,
           folder: folder ?? "videobumper",
         },
-        (error: Error | null, result: CloudinaryUploadResult | undefined) => {
+        (error, result) => {
           if (error) reject(error);
           else resolve(result);
         },

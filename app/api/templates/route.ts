@@ -3,7 +3,7 @@ export const dynamic = "force-dynamic";
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db/client";
 import { uploadToCloudinary } from "@/lib/helpers/uploadToCloudinary";
-// import type { UploadApiResponse } from "cloudinary";
+import type { UploadApiResponse } from "cloudinary";
 import { params } from "@/lib/constants";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
@@ -20,20 +20,9 @@ export async function GET(req: Request) {
   return new Response(JSON.stringify(templates), { status: 200 });
 }
 
-// export type UploadedMedia = {
-//   poster?: UploadApiResponse;
-//   video?: UploadApiResponse;
-// };
-
 export type UploadedMedia = {
-  poster?: {
-    secure_url: string;
-    public_id: string;
-  };
-  video?: {
-    secure_url: string;
-    public_id: string;
-  };
+  poster?: UploadApiResponse;
+  video?: UploadApiResponse;
 };
 
 type UpdatedData = {
