@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { params } from "@/lib/constants";
 import getCloudinary from "@/lib/upload/cloudinary";
 
