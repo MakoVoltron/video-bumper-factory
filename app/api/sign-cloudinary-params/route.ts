@@ -1,18 +1,15 @@
 import { params } from "@/lib/constants";
-import { v2 as cloudinary } from "cloudinary";
+import getCloudinary from "@/lib/upload/cloudinary";
+
 import Stripe from "stripe";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
-cloudinary.config({
-  cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
-});
-
 export async function POST(request: Request) {
   const { searchParams } = new URL(request.url);
   const paymentIntentId = searchParams.get(params.PAYMENT_INTENT_ID);
+
+  const cloudinary = getCloudinary();
 
   const body = await request.json();
   console.log("body in signing: ", body);
