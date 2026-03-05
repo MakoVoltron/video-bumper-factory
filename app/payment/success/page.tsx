@@ -6,6 +6,7 @@ import { axiosClient } from "@/lib/axios";
 import { params, route } from "@/lib/constants";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 type PurchaseSummary = {
   templateTitle: string;
@@ -19,7 +20,7 @@ const SuccessPage = () => {
 
   const [data, setData] = useState<PurchaseSummary | null>(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  // const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!paymentIntentId) {
@@ -40,11 +41,12 @@ const SuccessPage = () => {
         }
       } catch (error) {
         if (mounted) {
-          setError(
+          const errorMsg =
             error instanceof Error
               ? error.message
-              : "Payment not found or not completed",
-          );
+              : "Payment not found or not completed";
+
+          toast.error(errorMsg);
         }
       } finally {
         if (mounted) {

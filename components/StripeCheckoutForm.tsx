@@ -20,7 +20,7 @@ type StripeCheckoutFormProps = {
   onError?: (error: string) => void;
 };
 
-const StripeFormInner = ({ onSuccess, onError }: StripeCheckoutFormProps) => {
+const StripeFormInner = ({ onError }: StripeCheckoutFormProps) => {
   const stripe = useStripe();
   const elements = useElements();
   const [email, setEmail] = useState("");
