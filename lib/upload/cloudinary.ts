@@ -1,6 +1,8 @@
-import { v2 as cloudinary, v2 } from "cloudinary";
+import { v2 as cloudinary } from "cloudinary";
 
-const getCloudinary = (): typeof v2 => {
+type CloudinaryInstance = typeof cloudinary;
+
+const getCloudinary = (): CloudinaryInstance => {
   cloudinary.config({
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
     api_key: process.env.CLOUDINARY_API_KEY,
@@ -11,12 +13,3 @@ const getCloudinary = (): typeof v2 => {
 };
 
 export default getCloudinary;
-
-// cloudinary.config({
-//   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-//   api_key: process.env.CLOUDINARY_API_KEY,
-//   api_secret: process.env.CLOUDINARY_API_SECRET,
-//   secure: true,
-// });
-
-// export default cloudinary;
