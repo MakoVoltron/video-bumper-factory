@@ -4,6 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 import { MAX_FILE_SIZE_MB, params } from "@/lib/constants";
 import getCloudinary from "@/lib/upload/cloudinary";
+import { CloudinaryUploadResult } from "@/lib/helpers/uploadToCloudinary";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
@@ -66,7 +67,10 @@ export const POST = async (req: NextRequest) => {
                   template: intent.metadata.templateTitle,
                 },
               },
-              (err, result) => {
+              (
+                err: Error | null,
+                result: CloudinaryUploadResult | undefined,
+              ) => {
                 if (err || !result) reject(err);
                 else resolve(result);
               },

@@ -1,7 +1,7 @@
 // import type { UploadApiResponse } from "cloudinary";
 import getCloudinary from "@/lib/upload/cloudinary";
 
-type CloudinaryUploadResult = {
+export type CloudinaryUploadResult = {
   secure_url: string;
   public_id: string;
 };
