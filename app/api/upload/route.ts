@@ -2,6 +2,7 @@ export const dynamic = "force-dynamic";
 
 import { NextResponse } from "next/server";
 import getCloudinary from "@/lib/upload/cloudinary";
+import { CloudinaryUploadResult } from "@/lib/helpers/uploadToCloudinary";
 
 export async function POST(req: Request) {
   const cloudinary = await getCloudinary();
@@ -24,7 +25,7 @@ export async function POST(req: Request) {
             ? "video"
             : "image",
         },
-        (error, result) => {
+        (error: Error | null, result: CloudinaryUploadResult | undefined) => {
           if (error) {
             reject(error);
           } else {
