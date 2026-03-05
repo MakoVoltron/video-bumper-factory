@@ -1,7 +1,9 @@
 import { NextResponse } from "next/server";
-import cloudinary from "@/lib/upload/cloudinary";
+import getCloudinary from "@/lib/upload/cloudinary";
 
 export async function POST(req: Request) {
+  const cloudinary = getCloudinary();
+
   const formData = await req.formData();
   const posterFile = formData.get("poster") as File | null;
 
@@ -26,7 +28,7 @@ export async function POST(req: Request) {
           } else {
             resolve(result);
           }
-        }
+        },
       )
       .end(posterBuffer);
   });
