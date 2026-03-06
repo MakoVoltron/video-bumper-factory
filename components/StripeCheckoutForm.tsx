@@ -12,7 +12,6 @@ import {
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import Spinner from "./ui/Spinner";
-import { error } from "console";
 import { toast } from "react-toastify";
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY!);
@@ -27,10 +26,14 @@ const StripeFormInner = ({ onError }: StripeCheckoutFormProps) => {
   const elements = useElements();
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showError, setShowError] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!stripe || !elements) return;
+    if (!email) {
+      setShowError(true);
+    }
 
     setLoading(true);
 
@@ -62,9 +65,12 @@ const StripeFormInner = ({ onError }: StripeCheckoutFormProps) => {
           onChange={(e) => setEmail(e.target.value)}
           required
         />
-        <p className="text-xs text-red-500 m-1">
-          Email for delivering your final logo animation.
-        </p>
+        {showError && (
+          <p className="text-xs text-red-500 m-1">
+            Please, enter your email so we know where to send the final
+            animation.
+          </p>
+        )}
       </div>
 
       <div>

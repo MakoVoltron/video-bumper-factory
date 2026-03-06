@@ -1,5 +1,7 @@
 import type { NextConfig } from "next";
 
+const isDev = process.env.NODE_ENV === "development";
+
 const nextConfig: NextConfig = {
   /* config options here */
   images: {
@@ -18,10 +20,14 @@ const nextConfig: NextConfig = {
           {
             key: "Content-Security-Policy",
             value: [
+              "default-src 'self'",
+              `script-src 'self' 'unsafe-inline' ${isDev ? "'unsafe-eval'" : ""} https://js.stripe.com`,
+              "style-src 'self' 'unsafe-inline'",
               "font-src 'self' https://js.stripe.com",
-              "script-src 'self' https://js.stripe.com",
               "frame-src https://js.stripe.com",
-              "connect-src 'self' https://api.stripe.com",
+              "connect-src 'self' https://api.stripe.com https://res.cloudinary.com",
+              "img-src 'self' data: https://*.stripe.com https://res.cloudinary.com",
+              "media-src 'self' https://res.cloudinary.com",
             ].join("; "),
           },
         ],
