@@ -12,6 +12,8 @@ import {
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import Spinner from "./ui/Spinner";
+import { error } from "console";
+import { toast } from "react-toastify";
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY!);
 
@@ -93,9 +95,6 @@ const StripeCheckoutForm = ({ template }: { template: Template }) => {
         templateTitle: template.title,
       })
       .then((res) => {
-        console.log("axios res");
-        console.log(res);
-
         if (mounted) {
           setClientSecret(res.data.clientSecret);
           setLoading(false);
@@ -119,7 +118,7 @@ const StripeCheckoutForm = ({ template }: { template: Template }) => {
     <>
       {clientSecret && (
         <Elements stripe={stripePromise} options={{ clientSecret }}>
-          <StripeFormInner />
+          <StripeFormInner onError={(error) => toast.error(error)} />
         </Elements>
       )}
     </>

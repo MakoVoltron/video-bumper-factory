@@ -10,6 +10,24 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  async headers() {
+    return [
+      {
+        source: "/(.*)",
+        headers: [
+          {
+            key: "Content-Security-Policy",
+            value: [
+              "font-src 'self' https://js.stripe.com",
+              "script-src 'self' https://js.stripe.com",
+              "frame-src https://js.stripe.com",
+              "connect-src 'self' https://api.stripe.com",
+            ].join("; "),
+          },
+        ],
+      },
+    ];
+  },
 };
 
 export default nextConfig;

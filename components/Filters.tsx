@@ -9,8 +9,6 @@ type FilterProps = {
 };
 
 const Filters = ({ onChange, selected }: FilterProps) => {
-  console.log("selected", selected);
-
   return (
     <div className="m-2">
       <p className="text-center text-gray-400 text-sm my-2">

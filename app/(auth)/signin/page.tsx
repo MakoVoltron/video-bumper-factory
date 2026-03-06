@@ -5,7 +5,6 @@ import { headers } from "next/headers";
 
 export default async function SignInPage() {
   const session = await auth.api.getSession({ headers: await headers() });
-  console.log(session);
 
   if (session) redirect("/");
 

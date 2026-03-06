@@ -44,10 +44,8 @@ const SignInForm = () => {
             toast.warn("Sign in failed.");
           }
         },
-      }
+      },
     );
-
-    console.log(user);
 
     setLoading(false);
   }
