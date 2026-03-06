@@ -58,7 +58,7 @@ const Video = ({
         src={posterUrl}
         alt={title ?? "poster"}
         fill
-        // sizes="(max-width: 500px) 100vw, 33vw"
+        sizes="(max-width: 500px) 100vw, 33vw"
         className={cn(
           "object-cover group-hover/video:opacity-0 grayscale hover:grayscale-0 transition-opacity duration-200 pointer-events-none",
           isPlaying ? "opacity-0" : "opacity-100",

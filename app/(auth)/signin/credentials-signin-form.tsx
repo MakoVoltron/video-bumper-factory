@@ -33,7 +33,7 @@ const SignInForm = () => {
     const email = formData.get("email") as string;
     const password = formData.get("password") as string;
 
-    const user = await signIn.email(
+    await signIn.email(
       { email, password, callbackURL: "/post-auth" },
       {
         onError: (error: unknown) => {
