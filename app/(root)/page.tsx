@@ -25,7 +25,7 @@ export default async function Home() {
       </Section>
       <Section
         id="what-we-do"
-        className="bg-linear-to-b from-black via-purple-950/50 to-black"
+        className="bg-black bg-linear-to-b from-black via-purple-950/50 to-black"
       >
         <InnerSection>
           <SectionTitle />

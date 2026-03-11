@@ -32,7 +32,7 @@ const SocialProofBanner = () => {
   };
 
   const selectedTestimonial = testimonialData.find(
-    (profile) => profile.id === hovered
+    (profile) => profile.id === hovered,
   );
 
   useEffect(() => {
