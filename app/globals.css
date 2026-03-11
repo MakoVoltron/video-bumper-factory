@@ -1,5 +1,10 @@
 @import "tailwindcss";
 
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 html {
   scroll-behavior: smooth;
 }
@@ -84,6 +89,11 @@ body {
 @layer utilities {
   .featurebox-wrapper {
     @apply relative bg-linear-to-b  from-slate-900 to-slate-950 overflow-hidden;
+    -webkit-mask: radial-gradient(
+      white,
+      white
+    ); /* forces Safari to respect overflow clip */
+    mask: radial-gradient(white, white);
   }
 
   .featurebox-wrapper::before,
@@ -112,6 +122,6 @@ body {
   }
 
   .featurebox-content {
-    @apply w-full h-full rounded-xl bg-linear-to-b  from-slate-900 to-slate-950;
+    @apply w-full h-full rounded-xl bg-linear-to-b  from-slate-900 to-slate-950 relative z-10;
   }
 }

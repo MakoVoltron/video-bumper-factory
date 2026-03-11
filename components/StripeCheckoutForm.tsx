@@ -33,6 +33,9 @@ const StripeFormInner = ({ onError }: StripeCheckoutFormProps) => {
     if (!stripe || !elements) return;
     if (!email) {
       setShowError(true);
+      return;
+    } else {
+      setShowError(false);
     }
 
     setLoading(true);
@@ -63,7 +66,7 @@ const StripeFormInner = ({ onError }: StripeCheckoutFormProps) => {
           placeholder="Your email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          required
+          // required
         />
         {showError && (
           <p className="text-xs text-red-500 m-1">
