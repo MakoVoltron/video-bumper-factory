@@ -135,13 +135,13 @@ const TemplateGrid = ({ templates }: { templates: Template[] }) => {
           closeModal={() => setPendingAction(null)}
         >
           <div className="grid grid-cols-12 gap-2">
-            <div className="col-span-6">
+            <div className="order-2 col-span-12">
               <StripeCheckoutForm
                 key={sessionKey}
                 template={pendingAction.template}
               />
             </div>
-            <div className="col-span-6">
+            <div className="order-1 col-span-12">
               <Video
                 posterUrl={pendingAction.template.posterUrl}
                 videoUrl={pendingAction.template.videoUrl}

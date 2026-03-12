@@ -18,7 +18,7 @@ export async function sendOrderConfirmation({
 
   try {
     await resend.emails.send({
-      from: `${APP.NAME} <${defaultValues.emailFrom}>`,
+      from: `${APP.NAME} <${process.env.RESEND_EMAIL_FROM ?? defaultValues.emailFrom}>`,
       to,
       subject: `Order placed! Now we need your logo!`,
       html: `

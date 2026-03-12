@@ -42,7 +42,7 @@ const Video = ({
               <button
                 key={i}
                 onClick={action.onClick}
-                className={` ${action.variant === "danger" ? "bg-rose-500 hover:bg-slate-900/80 hover:text-red-500" : "bg-slate-900/30 hover:bg-slate-900/80"} transition duration-500  right-0 rounded-md p-2 m-1 cursor-pointer z-10 opacity-0  group-hover/video:opacity-100 size-8 `}
+                className={` ${action.variant === "danger" ? "bg-rose-500 hover:bg-slate-900/80 hover:text-red-500" : "bg-slate-900/30 hover:bg-slate-900/80"} transition duration-500  right-0 rounded-md p-2 m-1 cursor-pointer z-10 opacity-40  group-hover/video:opacity-100 size-8 `}
               >
                 <div className="flex justify-center items-center w-full h-full">
                   {action.icon}
