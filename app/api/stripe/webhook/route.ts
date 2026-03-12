@@ -9,6 +9,7 @@ export const runtime = "nodejs";
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
 export async function POST(req: Request) {
+  console.log("Webhook received");
   const body = await req.text();
   const signature = (await headers()).get("stripe-signature");
 

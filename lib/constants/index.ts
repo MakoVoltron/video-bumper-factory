@@ -28,7 +28,8 @@ export const MAX_FILE_SIZE_MB = 40;
 
 export const APP = {
   NAME: process.env.NEXT_PUBLIC_APP_NAME || "Video Bumper Factory",
-  DESCRIPTION: "We Turn Your Logo Into an Animation",
+  DESCRIPTION:
+    "Professional done-for-you business logo animation service. Get animated logo bumpers for TikTok, YouTube & Reels in 48h. Only $99. Done by real humans.",
   URL: process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:3000",
 };
 
