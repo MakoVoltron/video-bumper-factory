@@ -60,6 +60,8 @@ const TemplateForm = ({
     const file = e.target.files?.[0];
     if (!file) return;
 
+    console.log("file type:", file?.type, "name:", file?.name);
+
     if (file.type.startsWith("video/")) {
       setVideoFile(file);
       setVideoPreview(URL.createObjectURL(file));
@@ -96,31 +98,34 @@ const TemplateForm = ({
       <div className="grid grid-cols-12 gap-4">
         <form onSubmit={handleSubmit} className="col-span-12 lg:col-span-6">
           <div className="grid grid-cols-12 gap-2 mb-2">
-            <Input
-              onChange={(e) => setTitle(e.target.value)}
-              name="title"
-              placeholder="Template name"
-              cols="12"
-              value={title}
-            />
-            <Input
-              onChange={handleChange}
-              name="poster"
-              placeholder="Poster"
-              type="file"
-              cols="6"
-              validated={!!posterPreview}
-              accept="image/jpg, image/png"
-            />
-            <Input
-              onChange={handleChange}
-              name="video"
-              placeholder="Video Preview"
-              type="file"
-              cols="6"
-              validated={!!videoPreview}
-              accept="video/mp4"
-            />
+            <div className="col-span-12">
+              <Input
+                onChange={(e) => setTitle(e.target.value)}
+                name="title"
+                placeholder="Template name"
+                value={title}
+              />
+            </div>
+            <div className="col-span-4">
+              <Input
+                onChange={handleChange}
+                name="poster"
+                placeholder="Poster"
+                type="file"
+                validated={!!posterPreview}
+                accept="image/jpg, image/png"
+              />
+            </div>
+            <div className="col-span-4">
+              <Input
+                onChange={handleChange}
+                name="video"
+                placeholder="Video Preview"
+                type="file"
+                validated={!!videoPreview}
+                accept="video/mp4"
+              />
+            </div>
           </div>
 
           <Label text="Logo orientation" />

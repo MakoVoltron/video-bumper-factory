@@ -36,10 +36,6 @@ export const APP = {
 
 export const CATEGORY_TYPE = [
   {
-    label: "",
-    icon: undefined,
-  },
-  {
     label: "Horizontal",
     icon: IconHorizontal,
   },
