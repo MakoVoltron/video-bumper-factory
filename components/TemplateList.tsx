@@ -13,8 +13,6 @@ import Button from "./ui/Button";
 const TemplateList = ({ limit = 9 }: { limit?: number }) => {
   const [filter, setFilter] = useState<CategoryLabels | undefined>(undefined);
 
-  // const LIMIT = 4;
-
   const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useInfiniteQuery({
       queryKey: [queryKey.templates, filter],

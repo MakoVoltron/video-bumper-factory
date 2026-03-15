@@ -15,12 +15,14 @@ type EditTemplateFormProps = {
   };
   onSuccess: () => void;
   onError: () => void;
+  modal?: boolean;
 };
 
 const EditTemplateForm = ({
   template,
   onSuccess,
   onError,
+  modal,
 }: EditTemplateFormProps) => {
   const { mutateAsync, isPending } = useUpdateTemplate();
 
@@ -34,6 +36,7 @@ const EditTemplateForm = ({
         posterUrl: template.posterUrl,
         videoUrl: template.videoUrl,
       }}
+      modal
       onSubmit={async ({
         title,
         category,

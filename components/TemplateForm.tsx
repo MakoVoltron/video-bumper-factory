@@ -22,6 +22,7 @@ type TemplateFormProps = {
     videoUrl?: string;
   };
   mode?: VideoMode;
+  modal?: boolean;
   submitLabel: string;
   isSubmitting?: boolean;
   onSubmit: (args: {
@@ -37,6 +38,7 @@ const TemplateForm = ({
   submitLabel,
   initialValues,
   mode = "hover",
+  modal,
   onSubmit,
 }: TemplateFormProps) => {
   const [title, setTitle] = useState(initialValues?.title ?? "");
@@ -100,7 +102,10 @@ const TemplateForm = ({
       <BlockingOverlay visible={status === "uploading"} />
 
       <div className="grid grid-cols-12 gap-4">
-        <form onSubmit={handleSubmit} className="col-span-12 lg:col-span-6">
+        <form
+          onSubmit={handleSubmit}
+          className={`col-span-12 ${modal ? "order-2" : "lg:col-span-6"}`}
+        >
           <div className="grid grid-cols-12 gap-2 mb-2">
             <div className="col-span-12">
               <Input
@@ -110,7 +115,7 @@ const TemplateForm = ({
                 value={title}
               />
             </div>
-            <div className="col-span-4">
+            <div className="col-span-6">
               <Input
                 onChange={handleChange}
                 name="poster"
@@ -120,7 +125,7 @@ const TemplateForm = ({
                 accept="image/jpg, image/png"
               />
             </div>
-            <div className="col-span-4">
+            <div className="col-span-6">
               <Input
                 onChange={handleChange}
                 name="video"
@@ -170,7 +175,7 @@ const TemplateForm = ({
           />
         </form>
 
-        <div className="col-span-12 lg:col-span-6">
+        <div className={`col-span-12 ${modal ? "order-1" : "lg:col-span-6"}`}>
           <div
             className="mb-2"
             style={{ aspectRatio: "16/9", overflow: "hidden" }}
