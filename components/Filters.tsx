@@ -4,7 +4,7 @@ import { CategoryLabels } from "@/app/(admin)/dashboard/add-template-form";
 import { CATEGORY_TYPE } from "@/lib/constants";
 
 type FilterProps = {
-  onChange?: (value: CategoryLabels) => void;
+  onChange?: (value?: CategoryLabels) => void;
   selected?: CategoryLabels;
 };
 
@@ -18,9 +18,13 @@ const Filters = ({ onChange, selected }: FilterProps) => {
         {CATEGORY_TYPE.map((category) => {
           const Icon = category.icon;
           return (
-            <div className={`col-span-4 `} key={category.label}>
+            <div className={`col-span-6 `} key={category.label}>
               <button
-                onClick={() => onChange?.(category.label)}
+                onClick={() =>
+                  onChange?.(
+                    selected !== category.label ? category.label : undefined,
+                  )
+                }
                 type="button"
                 className={`h-14 w-full   hover:bg-purple-900/80 border-2 ${category.label === selected ? "bg-purple-900" : "bg-purple-900/40"}  border-purple-900 p-2 rounded-sm m-0.5 cursor-pointer flex flex-col justify-center items-center gap-1`}
               >

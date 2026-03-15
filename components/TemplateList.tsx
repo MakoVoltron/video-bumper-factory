@@ -4,29 +4,29 @@ import { useState } from "react";
 import Filters from "./Filters";
 import TemplateGrid from "./TemplateGrid";
 import { CategoryLabels } from "@/app/(admin)/dashboard/add-template-form";
-import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { endpoint, params, queryKey } from "@/lib/constants";
 import Spinner from "./ui/Spinner";
 import Button from "./ui/Button";
 
-const TemplateList = () => {
+const TemplateList = ({ limit = 9 }: { limit?: number }) => {
   const [filter, setFilter] = useState<CategoryLabels | undefined>(undefined);
 
-  const LIMIT = 4;
+  // const LIMIT = 4;
 
   const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useInfiniteQuery({
       queryKey: [queryKey.templates, filter],
       queryFn: async ({ pageParam = 0 }) => {
         const res = await axios(
-          `${endpoint.templates}?${params.FILTER}=${filter ?? ""}&${params.LIMIT}=${LIMIT}&${params.OFFSET}=${pageParam}`,
+          `${endpoint.templates}?${params.FILTER}=${filter ?? ""}&${params.LIMIT}=${limit}&${params.OFFSET}=${pageParam}`,
         );
         return res.data;
       },
       getNextPageParam: (lastPage, allPages) => {
-        if (lastPage.length < LIMIT) return undefined;
-        return allPages.length * LIMIT;
+        if (lastPage.length < limit) return undefined;
+        return allPages.length * limit;
       },
 
       initialPageParam: 0,

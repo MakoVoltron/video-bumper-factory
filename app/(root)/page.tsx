@@ -40,7 +40,7 @@ export default async function Home() {
         </InnerSection>
       </Section>
       <Section id="templates">
-        <TemplateList />
+        <TemplateList limit={4} />
       </Section>
     </>
   );

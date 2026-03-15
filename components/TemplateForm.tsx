@@ -10,6 +10,7 @@ import Button from "./ui/Button";
 import Image from "next/image";
 import Video from "./ui/Video";
 import { VideoMode } from "@/types/video";
+import { redirect } from "next/navigation";
 
 type UploadStatus = "idle" | "uploading" | "success" | "error";
 
@@ -60,8 +61,6 @@ const TemplateForm = ({
     const file = e.target.files?.[0];
     if (!file) return;
 
-    console.log("file type:", file?.type, "name:", file?.name);
-
     if (file.type.startsWith("video/")) {
       setVideoFile(file);
       setVideoPreview(URL.createObjectURL(file));
@@ -88,6 +87,11 @@ const TemplateForm = ({
       setStatus("error");
     } finally {
       setProgress(0);
+      setPosterPreview(null);
+      setVideoPreview(null);
+      setPosterFile(null);
+      setVideoFile(null);
+      setTitle("");
     }
   };
 
