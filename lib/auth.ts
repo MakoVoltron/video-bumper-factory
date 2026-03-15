@@ -25,5 +25,10 @@ export const auth = betterAuth({
     },
   },
 
+  trustedOrigins: [
+    "https://videobumperfactory.com",
+    "https://www.videobumperfactory.com",
+  ],
+
   plugins: [nextCookies()],
 });
