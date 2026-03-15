@@ -12,8 +12,12 @@ import getCloudinary from "@/lib/upload/cloudinary";
 export async function GET(req: Request) {
   const url = new URL(req.url);
   const category = url.searchParams.get(params.FILTER);
+  const limit = Number(url.searchParams.get(params.LIMIT) ?? 4);
+  const offset = Number(url.searchParams.get(params.OFFSET) ?? 0);
 
   const templates = await prisma.templatePreview.findMany({
+    take: limit,
+    skip: offset,
     where: category ? { category } : undefined,
   });
 

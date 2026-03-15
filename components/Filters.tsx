@@ -10,7 +10,7 @@ type FilterProps = {
 
 const Filters = ({ onChange, selected }: FilterProps) => {
   return (
-    <div className="m-2">
+    <div className="m-2 w-xs">
       <p className="text-center text-gray-400 text-sm my-2">
         Choose your logo orientation
       </p>
@@ -18,13 +18,13 @@ const Filters = ({ onChange, selected }: FilterProps) => {
         {CATEGORY_TYPE.map((category) => {
           const Icon = category.icon;
           return (
-            <div className={`col-span-6 `} key={category.label}>
+            <div className={`col-span-4 `} key={category.label}>
               <button
                 onClick={() => onChange?.(category.label)}
                 type="button"
                 className={`h-14 w-full   hover:bg-purple-900/80 border-2 ${category.label === selected ? "bg-purple-900" : "bg-purple-900/40"}  border-purple-900 p-2 rounded-sm m-0.5 cursor-pointer flex flex-col justify-center items-center gap-1`}
               >
-                {Icon && <Icon />}
+                {Icon ? <Icon /> : "Show all"}
               </button>
             </div>
           );

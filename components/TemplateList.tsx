@@ -4,23 +4,35 @@ import { useState } from "react";
 import Filters from "./Filters";
 import TemplateGrid from "./TemplateGrid";
 import { CategoryLabels } from "@/app/(admin)/dashboard/add-template-form";
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { endpoint, params, queryKey } from "@/lib/constants";
 import Spinner from "./ui/Spinner";
+import Button from "./ui/Button";
 
 const TemplateList = () => {
   const [filter, setFilter] = useState<CategoryLabels | undefined>(undefined);
 
-  const { data: templates, isLoading } = useQuery({
-    queryKey: [queryKey.templates, filter],
-    queryFn: async () => {
-      const res = await axios(
-        `${endpoint.templates}?${params.FILTER}=${filter ?? ""}`,
-      );
-      return res.data;
-    },
-  });
+  const LIMIT = 4;
+
+  const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } =
+    useInfiniteQuery({
+      queryKey: [queryKey.templates, filter],
+      queryFn: async ({ pageParam = 0 }) => {
+        const res = await axios(
+          `${endpoint.templates}?${params.FILTER}=${filter ?? ""}&${params.LIMIT}=${LIMIT}&${params.OFFSET}=${pageParam}`,
+        );
+        return res.data;
+      },
+      getNextPageParam: (lastPage, allPages) => {
+        if (lastPage.length < LIMIT) return undefined;
+        return allPages.length * LIMIT;
+      },
+
+      initialPageParam: 0,
+    });
+
+  const templates = data?.pages.flat() ?? [];
 
   return (
     <>
@@ -30,7 +42,18 @@ const TemplateList = () => {
           <Spinner />
         </div>
       ) : (
-        <TemplateGrid templates={templates} />
+        <>
+          <TemplateGrid templates={templates} />
+
+          {hasNextPage && (
+            <div className="flex justify-center mt-6">
+              <Button
+                onClick={() => fetchNextPage()}
+                text={isFetchingNextPage ? "Loading..." : "Show more"}
+              />
+            </div>
+          )}
+        </>
       )}
     </>
   );

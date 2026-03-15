@@ -1,5 +1,6 @@
 import IconHorizontal from "@/components/icons/IconHorizontal";
 import IconVertical from "@/components/icons/IconVertical";
+import { icons } from "lucide-react";
 
 // DEFAULTS
 export const defaultValues = {
@@ -35,6 +36,10 @@ export const APP = {
 
 export const CATEGORY_TYPE = [
   {
+    label: "",
+    icon: undefined,
+  },
+  {
     label: "Horizontal",
     icon: IconHorizontal,
   },
@@ -46,6 +51,8 @@ export const CATEGORY_TYPE = [
 
 export const params = {
   FILTER: "filter",
+  LIMIT: "limit",
+  OFFSET: "offset",
   PAYMENT_INTENT: "payment_intent", // as per requested by Stripe
   PAYMENT_INTENT_ID: "paymentIntentId",
 };
