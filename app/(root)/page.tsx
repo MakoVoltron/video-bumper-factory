@@ -40,7 +40,10 @@ export default async function Home() {
         </InnerSection>
       </Section>
       <Section id="templates">
-        <TemplateList limit={4} />
+        <TemplateList limit={3} />
+      </Section>
+      <Section>
+        <div className="h-96 w-full bg-amber-100/50">FAQ</div>
       </Section>
     </>
   );

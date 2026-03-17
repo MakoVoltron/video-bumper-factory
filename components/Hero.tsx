@@ -26,7 +26,7 @@ const Hero = () => {
               Professional Logo Animation Service
             </p>
           </div>
-          <h1 className="font-headline text-3xl sm:text-5xl">
+          <h1 className="font-headline text-3xl sm:text-5xl text-white">
             Elevate Your Video Content With{" "}
             <span className="text-purple-600">Animated Logo Bumpers</span>
           </h1>
@@ -36,11 +36,7 @@ const Hero = () => {
             humans, real speed—no AI shortcuts, just a brand that moves and
             sticks.
           </p>
-          {/* <div>
-              <span className="font-bold bg-purple-950  text-purple-400 py-1 px-3 rounded-xl">
-                For $99 ONLY!
-              </span>
-            </div> */}
+
           <div className="mt-5">
             <Button text="Start now only for $99" target="templates" />
           </div>

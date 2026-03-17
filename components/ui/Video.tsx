@@ -34,7 +34,7 @@ const Video = ({
   };
 
   return (
-    <div className="col-span-12 md:col-span-6 lg:col-span-4 relative group/video">
+    <div className="col-span-12 md:col-span-6 lg:col-span-4 relative group/video aspect-video">
       <div className="absolute right-0">
         {actions && actions.length > 0 && (
           <div className="flex">

@@ -23,7 +23,8 @@ const TemplateList = ({ limit = 9 }: { limit?: number }) => {
         return res.data;
       },
       getNextPageParam: (lastPage, allPages) => {
-        if (lastPage.length < limit) return undefined;
+        if (!lastPage || lastPage.length === 0 || lastPage.length < limit)
+          return undefined;
         return allPages.length * limit;
       },
 
