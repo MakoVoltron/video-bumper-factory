@@ -16,7 +16,7 @@ import FAQAccordion from "@/components/FAQAccordion";
 export default async function Home() {
   return (
     <>
-      <Section>
+      <Section className="h-screen">
         <Hero />
         <SocialProofBanner />
         <ArrowIconTriangle

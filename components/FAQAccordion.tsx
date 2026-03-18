@@ -16,6 +16,11 @@ const questions = [
     answer: "$99 ONLY for all bumpers in our selection.",
   },
   {
+    question: "So what is the process to get my logo animated?",
+    answer:
+      "Super easy! First, you select the template you like and click the little icon in the top right corner. After payment, you will be redirected to a success page from where you can upload your logo files. You will receive an email with the same instructions, in case you want to upload logo files later. That's why we ask you for your email in the checkout form.",
+  },
+  {
     question: "What's your turn around time?",
     answer:
       "Since we are actually real humans and designers, who make sure the logo is implemented correctly, we need up to 48 hours to get back to you with the finished video bumper. Starting from the moment we receive your logo file.",
@@ -29,7 +34,10 @@ const questions = [
 
 const FAQAccordion = () => {
   return (
-    <div className="flex justify-center rounded-xl px-6 pt-10 pb-30">
+    <div className="flex flex-col items-center justify-center px-6 py-30">
+      <h2 className="text-white text-3xl font-bold text-center mb-4">
+        Frequently Asked Questions
+      </h2>
       <div className="max-w-[900px] rounded-t-xl rounded-b-xl overflow-hidden">
         {questions.map((q) => (
           <AccordionItem
