@@ -11,6 +11,7 @@ import Grid from "@/components/util/Grid";
 import Button from "@/components/ui/Button";
 
 import TemplateList from "@/components/TemplateList";
+import FAQAccordion from "@/components/FAQAccordion";
 
 export default async function Home() {
   return (
@@ -43,7 +44,7 @@ export default async function Home() {
         <TemplateList limit={3} />
       </Section>
       <Section>
-        <div className="h-96 w-full bg-amber-100/50">FAQ</div>
+        <FAQAccordion />
       </Section>
     </>
   );
