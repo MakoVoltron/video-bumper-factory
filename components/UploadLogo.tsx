@@ -11,7 +11,6 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { UploadedLogoResponse } from "@/types/api";
 import { X } from "lucide-react";
-import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import Spinner from "./ui/Spinner";
 

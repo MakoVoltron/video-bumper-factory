@@ -15,9 +15,9 @@ const AccordionItem = ({ question, answer }: Props) => {
       >
         <h3 className="text-xl font-semibold">{question}</h3>
         <div
-          className={`size-6 rounded-full transition duration-300 ${open ? "bg-purple-900 rotate-90 text-amber-300" : "bg-purple-800 rotate-0"} group-hover:text-amber-300 group-hover:bg-purple-700 bg-amber-300 flex justify-center items-center`}
+          className={`h-6 w-6 flex-none rounded-full transition duration-300 ${open ? "bg-purple-900 rotate-90 text-amber-300" : "bg-purple-800 rotate-0"} group-hover:text-amber-300 group-hover:bg-purple-700 bg-amber-300 flex justify-center items-center`}
         >
-          <PlusIcon className="size-3 " />
+          <PlusIcon className="size-3" />
         </div>
       </div>
       <div

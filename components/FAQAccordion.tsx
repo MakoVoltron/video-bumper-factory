@@ -2,12 +2,12 @@ import AccordionItem from "./AccordionItem";
 
 const questions = [
   {
-    question: "Sorry, what is it you guys are doing?",
+    question: "Ehh, so what is it you guys do?",
     answer:
       "We take your logo and turn it into a short 6-8 second logo bumper animation based on the template You choose from our selection. So effectively - you send us a image file and we send you a short video back!",
   },
   {
-    question: "Do you sell animation templates, After Effects or MOGRT files?",
+    question: "Do you sell animation templates or MOGRT files?",
     answer:
       "Nope. We are not just another marketplace that sells you a digital file and then left you hanging, wondering what to do next. With us, you skip the part where you still have to hire a motion designer to make the template work with your logo. In fact, WE ARE your motion designer - for the price of a template.",
   },
