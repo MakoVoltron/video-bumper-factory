@@ -17,6 +17,10 @@ const navlinks = [
     label: "Account",
     href: "/dashboard/account",
   },
+  {
+    label: "Orders",
+    href: "/dashboard/orders",
+  },
 ];
 
 const DashboardLayout = async ({
