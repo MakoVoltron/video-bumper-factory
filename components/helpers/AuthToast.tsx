@@ -27,7 +27,9 @@ const AuthToast = () => {
     newParams.delete("toast");
 
     const query = newParams.toString();
-    router.replace(query ? `?${query}` : "", { scroll: false });
+    router.replace(query ? `?${query}` : window.location.pathname, {
+      scroll: false,
+    });
   }, [toastType, params, router]);
 
   return null;

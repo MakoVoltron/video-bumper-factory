@@ -1,3 +1,4 @@
+import OrderStatusBar from "@/components/order/OrderStatus";
 import DeleteOrderButton from "@/components/ui/DeleteOrderButton";
 import Video from "@/components/ui/Video";
 import { prisma } from "@/lib/db/client";
@@ -33,9 +34,8 @@ const OrdersPage = async () => {
                   <span className="text-xs bg-amber-50/60 px-3 py-1 rounded-md text-black/80 font-semibold">
                     {order.userEmail}
                   </span>
-                  <span className="text-xs bg-purple-800 px-3 py-1 rounded-md text-white">
-                    {order.status}
-                  </span>
+
+                  <OrderStatusBar orderStatus={order.status} />
                 </div>
                 <div className="w-full bg-amber-50 rounded-xl overflow-hidden">
                   <Video
@@ -69,7 +69,13 @@ const OrdersPage = async () => {
                 </div>
               </div>
 
-              <div className="flex justify-end">
+              <div className="flex justify-between items-center">
+                <span className="text-xs p-1">
+                  Order created{" "}
+                  {new Intl.DateTimeFormat("cs-CZ").format(
+                    new Date(order.createdAt),
+                  )}
+                </span>
                 <DeleteOrderButton orderId={order.id} />
               </div>
             </div>
