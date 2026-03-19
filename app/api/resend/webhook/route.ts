@@ -55,7 +55,7 @@ export async function POST(req: Request) {
   await resend.emails.send({
     from: process.env.RESEND_EMAIL_FROM ?? "hello@videobumperfactory.com",
     to: process.env.ADMIN_EMAILS ?? "matej.valtr@gmail.com",
-    subject: "New order from Video Bumper Factory",
+    subject: `FWD: ${email.data?.subject}`,
     html: email.data?.html as string,
     replyTo: email.data?.from as string,
   });
