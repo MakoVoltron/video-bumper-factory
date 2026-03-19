@@ -13,6 +13,7 @@ import { UploadedLogoResponse } from "@/types/api";
 import { X } from "lucide-react";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import Spinner from "./ui/Spinner";
 
 type Props = {
   paymentIntentId: string;
@@ -124,7 +125,16 @@ const UploadLogo = ({ paymentIntentId }: Props) => {
   };
 
   return (
-    <div>
+    <div className="relative">
+      {uploading && (
+        <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black/60 backdrop-blur-xs">
+          <div className="flex justify-center items-center mb-2">
+            <Spinner />
+          </div>
+          <div>Uploading logo...</div>
+        </div>
+      )}
+
       <textarea
         name="notes"
         onChange={(e) => setNotes(e.target.value)}
@@ -163,7 +173,7 @@ const UploadLogo = ({ paymentIntentId }: Props) => {
       </button>
 
       {/* --- Preview before upload --- */}
-      <div className="mt-2 h-26 ">
+      <div className="mt-4 h-26 ">
         {previews.length > 0 && (
           <div className="grid grid-cols-3 gap-2">
             {previews.map((p, i) => (

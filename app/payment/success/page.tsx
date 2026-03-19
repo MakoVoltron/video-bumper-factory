@@ -20,6 +20,7 @@ const SuccessPage = () => {
 
   const [data, setData] = useState<PurchaseSummary | null>(null);
   const [loading, setLoading] = useState(true);
+
   // const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -68,15 +69,16 @@ const SuccessPage = () => {
         <div className="flex justify-center mb-2">
           <Spinner />
         </div>
-        <div>Veryfing payment...</div>
+        <div>Verifying payment...</div>
       </div>
     );
+
   if (!data || !paymentIntentId) return <div>Payment not found</div>;
 
   return (
     <div className="w-md md:w-xl p-4 space-y-2">
       <h2 className="text-2xl font-bold">Thank you for your payment!</h2>
-      {/* <p>Now, please, upload your logo file below:</p> */}
+      <p>Now, please, upload your logo file below:</p>
 
       <UploadLogo paymentIntentId={paymentIntentId} />
     </div>
