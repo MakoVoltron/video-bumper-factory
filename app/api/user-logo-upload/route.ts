@@ -3,10 +3,11 @@ export const dynamic = "force-dynamic";
 import { NextRequest, NextResponse } from "next/server";
 import type { UploadApiResponse } from "cloudinary";
 import Stripe from "stripe";
-import { MAX_FILE_SIZE_MB, params } from "@/lib/constants";
+import { APP, MAX_FILE_SIZE_MB, params } from "@/lib/constants";
 import getCloudinary from "@/lib/upload/cloudinary";
 import { prisma } from "@/lib/db/client";
 import { OrderStatus } from "@prisma/client";
+import { Resend } from "resend";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
@@ -79,6 +80,12 @@ export const POST = async (req: NextRequest) => {
     }),
   );
 
+  const existingOrder = await prisma.order.findUnique({
+    where: { paymentIntentId },
+  });
+  console.log("Looking for order with paymentIntentId:", paymentIntentId);
+  console.log("Found order:", existingOrder);
+
   // Update order with notes
   const order = await prisma.order.update({
     where: {
@@ -99,6 +106,20 @@ export const POST = async (req: NextRequest) => {
   });
 
   console.log("Order updated:", order);
+
+  // notify admin on email
+  const resend = new Resend(process.env.RESEND_API_KEY!);
+
+  await resend.emails.send({
+    from: `${APP.NAME} <${process.env.RESEND_EMAIL_FROM}>`,
+    to: process.env.ADMIN_EMAILS ?? "matej.valtr@gmail.com",
+    subject: "New logo uploaded!",
+    html: `
+    <p>A customer just uploaded their logo.</p>
+    <p>Go check it out!</p>
+
+    `,
+  });
 
   return NextResponse.json({
     files: uploads.map((u) => ({

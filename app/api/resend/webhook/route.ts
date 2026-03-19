@@ -23,6 +23,8 @@ type ResendWebhookEmailReceived = {
 type ResendWebhookPayload = ResendWebhookEmailReceived;
 
 export async function POST(req: Request) {
+  console.log("🔔 Webhook hit");
+
   // 1. Verify signature
   const secret = process.env.RESEND_WEBHOOK_SECRET!;
   const body = await req.text();

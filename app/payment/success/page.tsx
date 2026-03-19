@@ -20,6 +20,7 @@ const SuccessPage = () => {
 
   const [data, setData] = useState<PurchaseSummary | null>(null);
   const [loading, setLoading] = useState(true);
+  const [orderReady, setOrderReady] = useState(false);
 
   // const [error, setError] = useState<string | null>(null);
 
@@ -31,11 +32,27 @@ const SuccessPage = () => {
 
     let mounted = true;
 
+    const pollOrder = async () => {
+      for (let i = 0; i < 10; i++) {
+        const res = await axiosClient.get(
+          `/orders/check?${params.PAYMENT_INTENT_ID}=${paymentIntentId}`,
+        );
+        if (res.data.exists) {
+          if (mounted) setOrderReady(true);
+          return;
+        }
+        await new Promise((r) => setTimeout(r, 1500)); // wait 1.5s between attemp
+      }
+    };
+
     const fetchPayment = async () => {
       try {
-        const res = await axiosClient.get<PurchaseSummary>(
-          `${route.paymentIntent}/${paymentIntentId}`,
-        );
+        const [res] = await Promise.all([
+          axiosClient.get<PurchaseSummary>(
+            `${route.paymentIntent}/${paymentIntentId}`,
+          ),
+          pollOrder(),
+        ]);
 
         if (mounted) {
           setData(res.data);
@@ -80,7 +97,10 @@ const SuccessPage = () => {
       <h2 className="text-2xl font-bold">Thank you for your payment!</h2>
       <p>Now, please, upload your logo file below:</p>
 
-      <UploadLogo paymentIntentId={paymentIntentId} />
+      {data && orderReady && <UploadLogo paymentIntentId={paymentIntentId} />}
+      {data && !orderReady && (
+        <p className="text-sm text-gray-500">Preparing your order...</p>
+      )}
     </div>
   );
 };
