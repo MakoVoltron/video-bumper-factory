@@ -1,12 +1,52 @@
 import { Resend } from "resend";
+import { Webhook } from "svix";
+
+type ResendWebhookEmailReceived = {
+  type: "email.received";
+  created_at: string;
+  data: {
+    email_id: string;
+    from: string;
+    to: string[];
+    subject: string;
+    html?: string;
+    text?: string;
+    headers: Record<string, string>;
+    attachments?: {
+      filename: string;
+      content: string; // base64
+      content_type: string;
+    }[];
+  };
+};
+
+type ResendWebhookPayload = ResendWebhookEmailReceived;
 
 export async function POST(req: Request) {
-  const payload = await req.json();
-  if (payload.type !== "email.received") return;
+  // 1. Verify signature
+  const secret = process.env.RESEND_WEBHOOK_SECRET!;
+  const body = await req.text();
+  const headers = {
+    "svix-id": req.headers.get("svix-id")!,
+    "svix-timestamp": req.headers.get("svix-timestamp")!,
+    "svix-signature": req.headers.get("svix-signature")!,
+  };
+
+  let payload: ResendWebhookEmailReceived;
+
+  try {
+    const wh = new Webhook(secret);
+    payload = wh.verify(body, headers) as ResendWebhookPayload;
+  } catch (err) {
+    console.log("Error signing email: ", err);
+    return new Response("Invalid signature", { status: 400 });
+  }
+
+  if (payload.type !== "email.received") {
+    return new Response("Event type not handled", { status: 200 });
+  }
 
   const resend = new Resend(process.env.RESEND_API_KEY!);
-
-  // 1. Fetch full email via Resend API
   const email = await resend.emails.get(payload.data.email_id);
 
   // 2. Forward to your Gmail
@@ -17,4 +57,6 @@ export async function POST(req: Request) {
     html: email.data?.html as string,
     replyTo: email.data?.from as string,
   });
+
+  return new Response("OK", { status: 200 });
 }
