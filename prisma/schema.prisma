@@ -54,6 +54,8 @@ model TemplatePreview {
     orderPriority Int      @default(0)
     price         Int      @default(99)
     createdAt     DateTime @default(now())
+
+    orders Order[]
 }
 
 model Session {
@@ -111,4 +113,34 @@ model StripeEvent {
     id        String   @id
     type      String
     createdAt DateTime @default(now())
+
+    payload Json?
+
+    order Order?
+}
+
+enum OrderStatus {
+    PAID_AWAITING_ASSETS
+    ASSET_UPLOADED
+    DELIVERED
+}
+
+model Order {
+    id        String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    userEmail String
+
+    // What was ordered
+    templateId String          @db.Uuid
+    template   TemplatePreview @relation(fields: [templateId], references: [id])
+
+    // Payment
+    paymentIntentId String       @unique
+    stripeEventId   String?      @unique
+    stripeEvent     StripeEvent? @relation(fields: [stripeEventId], references: [id])
+
+    status OrderStatus @default(PAID_AWAITING_ASSETS)
+
+    notes     String?
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 }

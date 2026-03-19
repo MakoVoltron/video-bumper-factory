@@ -35,12 +35,13 @@ export async function POST(req: Request) {
     where: { id: event.id },
   });
 
+  // if event already exists, return
   if (existingEvent) {
     return NextResponse.json({ received: true });
   }
 
   // Store event immediately (prevents duplicates)
-  await prisma.stripeEvent.create({
+  const stripeEvent = await prisma.stripeEvent.create({
     data: {
       id: event.id,
       type: event.type,
@@ -52,8 +53,19 @@ export async function POST(req: Request) {
     const paymentIntent = event.data.object as Stripe.PaymentIntent;
 
     const email = paymentIntent.receipt_email;
-    // const templateId = paymentIntent.metadata.templateId;
+    const templateId = paymentIntent.metadata.templateId;
     const templateTitle = paymentIntent.metadata.templateTitle;
+
+    const order = await prisma.order.create({
+      data: {
+        userEmail: email ?? "not-provided",
+        templateId,
+        paymentIntentId: paymentIntent.id,
+        stripeEventId: stripeEvent.id,
+      },
+    });
+
+    console.log("Order created:", order);
 
     if (email) {
       await sendOrderConfirmation({

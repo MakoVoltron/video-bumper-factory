@@ -20,8 +20,8 @@ export async function GET(
     );
   }
 
-  console.log("paymentIntent");
-  console.log(paymentIntent);
+  // console.log("paymentIntent");
+  // console.log(paymentIntent);
 
   return NextResponse.json({
     amount: paymentIntent.amount,

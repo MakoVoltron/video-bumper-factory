@@ -5,6 +5,8 @@ import type { UploadApiResponse } from "cloudinary";
 import Stripe from "stripe";
 import { MAX_FILE_SIZE_MB, params } from "@/lib/constants";
 import getCloudinary from "@/lib/upload/cloudinary";
+import { prisma } from "@/lib/db/client";
+import { OrderStatus } from "@prisma/client";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
@@ -14,6 +16,7 @@ export const POST = async (req: NextRequest) => {
   const cloudinary = await getCloudinary();
 
   const paymentIntentId = formData.get(params.PAYMENT_INTENT_ID);
+  const notes = formData.get("notes");
 
   if (typeof paymentIntentId !== "string") {
     return NextResponse.json(
@@ -75,6 +78,19 @@ export const POST = async (req: NextRequest) => {
       });
     }),
   );
+
+  // Update order with notes
+  const order = await prisma.order.update({
+    where: {
+      paymentIntentId,
+    },
+    data: {
+      notes: notes as string,
+      status: OrderStatus.ASSET_UPLOADED,
+    },
+  });
+
+  console.log("Order updated:", order);
 
   return NextResponse.json({
     files: uploads.map((u) => ({

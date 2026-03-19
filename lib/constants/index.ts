@@ -1,6 +1,5 @@
 import IconHorizontal from "@/components/icons/IconHorizontal";
 import IconVertical from "@/components/icons/IconVertical";
-import { icons } from "lucide-react";
 
 // DEFAULTS
 export const defaultValues = {
@@ -23,6 +22,11 @@ export const queryKey = {
 export const cloudinaryPreset = {
   videoPreview: "video_template_preview",
   user_logo_upload: "user_logo_upload",
+};
+
+export const toastParam = {
+  signinSuccess: "signin-success",
+  logoUploadSuccess: "logo-sent-success",
 };
 
 export const MAX_FILE_SIZE_MB = 40;

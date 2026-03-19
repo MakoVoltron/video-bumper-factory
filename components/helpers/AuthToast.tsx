@@ -1,5 +1,6 @@
 "use client";
 
+import { toastParam } from "@/lib/constants";
 import { useSearchParams, useRouter } from "next/navigation";
 
 import { useEffect } from "react";
@@ -14,8 +15,12 @@ const AuthToast = () => {
   useEffect(() => {
     if (!toastType) return;
 
-    if (toastType === "signin-success") {
+    if (toastType === toastParam.signinSuccess) {
       toast.success("Welcome back 👋");
+    }
+
+    if (toastType === toastParam.logoUploadSuccess) {
+      toast.success("Logo sent! We'll be in touch soon 💪");
     }
 
     const newParams = new URLSearchParams(params.toString());

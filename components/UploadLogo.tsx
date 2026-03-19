@@ -1,11 +1,18 @@
 "use client";
 
 import { axiosClient } from "@/lib/axios";
-import { acceptedFiles, MAX_FILE_SIZE_MB, params } from "@/lib/constants";
+import {
+  acceptedFiles,
+  MAX_FILE_SIZE_MB,
+  params,
+  toastParam,
+} from "@/lib/constants";
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { UploadedLogoResponse } from "@/types/api";
 import { X } from "lucide-react";
+import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 type Props = {
   paymentIntentId: string;
@@ -21,7 +28,11 @@ const UploadLogo = ({ paymentIntentId }: Props) => {
   const [uploaded, setUploaded] = useState<string[]>([]);
   const [isDragging, setIsDragging] = useState(false);
 
+  const [notes, setNotes] = useState("");
+
   const inputRef = useRef<HTMLInputElement>(null);
+
+  const router = useRouter();
 
   console.log(files);
 
@@ -79,6 +90,7 @@ const UploadLogo = ({ paymentIntentId }: Props) => {
 
     const formData = new FormData();
     formData.append(params.PAYMENT_INTENT_ID, paymentIntentId);
+    formData.append("notes", notes);
     files.forEach((file) => formData.append("file", file));
 
     const res = await axiosClient.post<UploadedLogoResponse>(
@@ -91,6 +103,11 @@ const UploadLogo = ({ paymentIntentId }: Props) => {
       },
     );
     console.log("res in UploadLogo: ", res);
+
+    if (res.status === 200) {
+      router.push(`/?toast=${toastParam.logoUploadSuccess}`);
+      return;
+    }
 
     setUploaded(res.data.files.map((f) => f.secure_url));
     setUploading(false);
@@ -107,12 +124,19 @@ const UploadLogo = ({ paymentIntentId }: Props) => {
   };
 
   return (
-    <div className="space-y-3">
+    <div>
+      <textarea
+        name="notes"
+        onChange={(e) => setNotes(e.target.value)}
+        className="w-full h-20 bg-gray-100 text-black/80 p-2 rounded-md resize-none"
+        placeholder="Any notes for us?"
+      />
+
       <label
         onDrop={handleDrop}
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
-        className={`h-[275px] my-2 rounded-md border-2 border-dotted text-emerald-500 border-emerald-500 hover:border-emerald-200 hover:text-emerald-200 ${isDragging && "border-emerald-200"}  transition duration-300 cursor-pointer flex  justify-center items-center`}
+        className={`h-[275px] mb-2 rounded-md border-2 border-dotted text-emerald-500 border-emerald-500 hover:border-emerald-200 hover:text-emerald-200 ${isDragging && "border-emerald-200"}  transition duration-300 cursor-pointer flex  justify-center items-center`}
       >
         <input
           ref={inputRef}

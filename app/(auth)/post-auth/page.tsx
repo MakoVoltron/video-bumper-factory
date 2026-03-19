@@ -1,4 +1,5 @@
 import { auth } from "@/lib/auth";
+import { toastParam } from "@/lib/constants";
 import { prisma } from "@/lib/db/client";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
@@ -20,7 +21,7 @@ const PostAuth = async () => {
   if (user && user.role === "ADMIN") {
     redirect("/dashboard");
   } else {
-    redirect("/?toast=signin-success");
+    redirect(`/?toast=${toastParam.signinSuccess}`);
   }
 };
 
