@@ -4,6 +4,10 @@
 // Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
+// CLI commands
+// npx prisma migrate dev --name add_order_status_stripe_relation
+// npx prisma generate
+
 generator client {
     provider = "prisma-client-js"
     //   output   = "../prisma/generated/prisma"
@@ -125,6 +129,15 @@ enum OrderStatus {
     DELIVERED
 }
 
+model OrderAsset {
+    id        String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    publicId  String
+    secureUrl String
+
+    orderId String @db.Uuid
+    order   Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
+}
+
 model Order {
     id        String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
     userEmail String
@@ -139,6 +152,8 @@ model Order {
     stripeEvent     StripeEvent? @relation(fields: [stripeEventId], references: [id])
 
     status OrderStatus @default(PAID_AWAITING_ASSETS)
+
+    assets OrderAsset[]
 
     notes     String?
     createdAt DateTime @default(now())

@@ -87,6 +87,14 @@ export const POST = async (req: NextRequest) => {
     data: {
       notes: notes as string,
       status: OrderStatus.ASSET_UPLOADED,
+      assets: {
+        createMany: {
+          data: uploads.map((u) => ({
+            publicId: u.public_id,
+            secureUrl: u.secure_url,
+          })),
+        },
+      },
     },
   });
 

@@ -78,7 +78,6 @@ const SuccessPage = () => {
       <h2 className="text-2xl font-bold">Thank you for your payment!</h2>
       {/* <p>Now, please, upload your logo file below:</p> */}
 
-      {/* <div>{data.templateTitle}</div> */}
       <UploadLogo paymentIntentId={paymentIntentId} />
     </div>
   );
