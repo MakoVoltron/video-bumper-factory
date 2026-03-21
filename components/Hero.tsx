@@ -8,7 +8,7 @@ const Hero = () => {
       {/* Background image */}
       <Image
         src={hero}
-        alt="hero image background"
+        alt="Professional business logo animation service"
         fill
         className="object-cover"
         loading="eager"

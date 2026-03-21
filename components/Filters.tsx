@@ -11,9 +11,9 @@ type FilterProps = {
 const Filters = ({ onChange, selected }: FilterProps) => {
   return (
     <div className="m-2 w-xs">
-      <p className="text-center text-gray-400 text-sm my-2">
-        Choose your logo orientation
-      </p>
+      <h2 className="text-center text-gray-300 my-2">
+        Choose your animated logo style
+      </h2>
       <div className="grid grid-cols-12 gap-2 justify-center items-center">
         {CATEGORY_TYPE.map((category) => {
           const Icon = category.icon;

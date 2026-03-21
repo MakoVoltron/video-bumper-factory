@@ -7,7 +7,7 @@ import { CategoryLabels } from "@/app/(admin)/dashboard/add-template-form";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { endpoint, params, queryKey } from "@/lib/constants";
-import Spinner from "./ui/Spinner";
+
 import Button from "./ui/Button";
 import SkeletonCard from "./ui/SkeletonCard";
 

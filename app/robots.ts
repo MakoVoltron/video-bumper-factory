@@ -12,7 +12,7 @@ export default function robots(): MetadataRoute.Robots {
         "/payment/",
         "/signin",
         "/signup",
-        "/admin",
+        "/post-auth",
       ],
     },
     sitemap: new URL("/sitemap.xml", APP.URL).toString(),
