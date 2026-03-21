@@ -84,7 +84,7 @@ const TemplateGrid = ({ templates }: { templates: Template[] }) => {
   };
 
   return (
-    <div className="relative grid grid-cols-12 gap-1">
+    <div className="relative grid grid-cols-12 gap-1 w-full">
       {templates.map((template) => {
         return (
           <Video
