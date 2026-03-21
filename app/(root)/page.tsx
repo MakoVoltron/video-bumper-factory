@@ -15,7 +15,7 @@ import FAQAccordion from "@/components/FAQAccordion";
 
 export default async function Home() {
   return (
-    <main>
+    <>
       <Section className="h-screen">
         <Hero />
         <SocialProofBanner />
@@ -46,6 +46,6 @@ export default async function Home() {
       <Section>
         <FAQAccordion />
       </Section>
-    </main>
+    </>
   );
 }
