@@ -19,20 +19,10 @@ const Video = ({
   const containerRef = useRef<HTMLDivElement | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
-  // const pointerOverRef = useRef(false);
-  // const [src, setSrc] = useState<string | null>(() =>
-  //   mode === "loop" ? videoUrl : null,
-  // );
-
   const [hoverSrc, setHoverSrc] = useState<string | null>(null);
   const resolvedSrc = mode === "loop" ? videoUrl : hoverSrc;
 
   const [isPlaying, setIsPlaying] = useState(mode === "loop");
-
-  // const handlePlay = () => {
-  //   setIsPlaying(true);
-  //   videoRef.current?.play();
-  // };
 
   const handleStop = () => {
     if (mode === "hover") {
@@ -124,8 +114,6 @@ const Video = ({
         playsInline
         muted={mute}
         className="absolute inset-0 w-full h-full object-cover"
-        // onMouseEnter={mode === "hover" ? handlePlay : undefined}
-        // onMouseLeave={mode === "hover" ? handleStop : undefined}
         onLoadedData={mode === "hover" ? handleVideoLoadedData : undefined}
         onPlay={() => setIsPlaying(true)}
       />
