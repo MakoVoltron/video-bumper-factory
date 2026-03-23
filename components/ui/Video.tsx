@@ -14,13 +14,25 @@ const Video = ({
   actions,
   title,
 }: VideoPreviewProps) => {
+  const playIntenRef = useRef(false);
+
+  const containerRef = useRef<HTMLDivElement | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
+
+  // const pointerOverRef = useRef(false);
+  // const [src, setSrc] = useState<string | null>(() =>
+  //   mode === "loop" ? videoUrl : null,
+  // );
+
+  const [hoverSrc, setHoverSrc] = useState<string | null>(null);
+  const resolvedSrc = mode === "loop" ? videoUrl : hoverSrc;
+
   const [isPlaying, setIsPlaying] = useState(mode === "loop");
 
-  const handlePlay = () => {
-    setIsPlaying(true);
-    videoRef.current?.play();
-  };
+  // const handlePlay = () => {
+  //   setIsPlaying(true);
+  //   videoRef.current?.play();
+  // };
 
   const handleStop = () => {
     if (mode === "hover") {
@@ -33,8 +45,44 @@ const Video = ({
     }
   };
 
+  const handlePointerEnter = () => {
+    if (mode !== "hover") return;
+
+    playIntenRef.current = true;
+
+    if (!hoverSrc) {
+      setHoverSrc(videoUrl);
+      return;
+    }
+
+    videoRef.current?.play().catch(() => {});
+  };
+
+  const handlePointerLeave = () => {
+    if (mode !== "hover") return;
+    playIntenRef.current = false;
+
+    requestAnimationFrame(() => {
+      if (!containerRef.current?.matches(":hover")) {
+        handleStop();
+      }
+    });
+  };
+
+  const handleVideoLoadedData = () => {
+    if (mode !== "hover") return;
+    if (playIntenRef.current) {
+      videoRef.current?.play().catch(() => {});
+    }
+  };
+
   return (
-    <div className="col-span-12 md:col-span-6 lg:col-span-4 relative group/video aspect-video w-full">
+    <div
+      ref={containerRef}
+      className="col-span-12 md:col-span-6 lg:col-span-4 relative group/video aspect-video w-full"
+      onPointerEnter={mode === "hover" ? handlePointerEnter : undefined}
+      onPointerLeave={mode === "hover" ? handlePointerLeave : undefined}
+    >
       <div className="absolute right-0 z-30">
         {actions && actions.length > 0 && (
           <div className="flex">
@@ -60,7 +108,7 @@ const Video = ({
         fill
         sizes="(max-width: 500px) 100vw, 33vw"
         className={cn(
-          "object-cover z-20 group-hover/video:opacity-0 grayscale hover:grayscale-0 transition-opacity duration-200 pointer-events-none",
+          "object-cover z-20 grayscale hover:grayscale-0 transition-opacity duration-200 pointer-events-none",
           isPlaying ? "opacity-0" : "opacity-100",
         )}
         priority={false}
@@ -69,15 +117,16 @@ const Video = ({
       <video
         ref={videoRef}
         key={id}
-        src={videoUrl}
-        preload="metadata"
+        src={resolvedSrc ?? undefined}
+        preload={mode === "loop" ? "metadata" : "auto"}
         autoPlay={mode === "loop"}
         loop={mode === "loop"}
         playsInline
         muted={mute}
         className="absolute inset-0 w-full h-full object-cover"
-        onMouseEnter={mode === "hover" ? handlePlay : undefined}
-        onMouseLeave={mode === "hover" ? handleStop : undefined}
+        // onMouseEnter={mode === "hover" ? handlePlay : undefined}
+        // onMouseLeave={mode === "hover" ? handleStop : undefined}
+        onLoadedData={mode === "hover" ? handleVideoLoadedData : undefined}
         onPlay={() => setIsPlaying(true)}
       />
     </div>
