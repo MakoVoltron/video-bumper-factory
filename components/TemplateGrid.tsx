@@ -13,7 +13,19 @@ import { toast } from "react-toastify";
 import { CategoryLabels } from "@/app/(admin)/dashboard/add-template-form";
 import ModalTemplate from "./ModalTemplate";
 import EditTemplateForm from "@/app/(admin)/dashboard/edit-template-form";
-import StripeCheckoutForm from "./StripeCheckoutForm";
+// import StripeCheckoutForm from "./StripeCheckoutForm";
+
+import dynamic from "next/dynamic";
+import Spinner from "./ui/Spinner";
+
+const StripeCheckoutForm = dynamic(() => import("./StripeCheckoutForm"), {
+  ssr: false,
+  loading: () => (
+    <div className="flex justify-center py-8">
+      <Spinner />
+    </div>
+  ),
+});
 
 export type TemplateContext = {
   id: string;

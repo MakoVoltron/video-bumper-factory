@@ -10,6 +10,7 @@ const Hero = () => {
         src={hero}
         alt="Professional business logo animation service"
         fill
+        sizes="100vw"
         className="object-cover"
         loading="eager"
         placeholder="blur"
