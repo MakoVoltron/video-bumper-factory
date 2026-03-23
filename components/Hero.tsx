@@ -15,6 +15,7 @@ const Hero = () => {
         loading="eager"
         placeholder="blur"
         priority
+        fetchPriority="high"
       />
       {/* Overlay */}
       <div className="absolute inset-0 bg-black/85" />

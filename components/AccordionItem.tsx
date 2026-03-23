@@ -11,7 +11,7 @@ const AccordionItem = ({ question, answer }: Props) => {
   return (
     <div onClick={() => setOpen(!open)}>
       <div
-        className={`${open ? "bg-purple-800 text-amber-300" : "bg-purple-600 text-white/80"} group hover:bg-purple-800 flex justify-between items-center px-6 py-3 shadow-2xl cursor-pointer`}
+        className={`${open ? "bg-purple-800 text-amber-300" : "bg-purple-600 text-white"} group hover:bg-purple-800 flex justify-between items-center px-6 py-3 shadow-2xl cursor-pointer`}
       >
         <h3 className="text-xl font-semibold">{question}</h3>
         <div

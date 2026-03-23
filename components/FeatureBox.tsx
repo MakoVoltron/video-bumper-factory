@@ -16,9 +16,9 @@ const FeatureBox = ({ title, text, icon: Icon }: FeatureBoxProps) => {
           </span>
         </div>
         <div className="col-span-4 ">
-          <h4 className="text-xl font-bold transition duration-500 text-white group-hover:text-purple-600">
+          <h3 className="text-xl font-bold transition duration-500 text-white group-hover:text-purple-600">
             {title}
-          </h4>
+          </h3>
           <p className="text-gray-400 text-sm">{text}</p>
         </div>
       </div>

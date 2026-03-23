@@ -14,7 +14,7 @@ type TestimonialProps = {
 
 const Testimonial = ({ name, title, company, text }: TestimonialProps) => (
   <div className="flex flex-col items-center justify-center p-3">
-    <h3 className="font-bold text-xl">{name}</h3>
+    <p className="font-bold text-xl">{name}</p>
     <p className="text-gray-400">
       {title} {company && "at"} {company}
     </p>
@@ -47,7 +47,8 @@ const SocialProofBanner = () => {
 
   return (
     <div className="text-white flex flex-col justify-center items-center max-w-2xl gap-3 mb-3">
-      <div className="font-bold uppercase text-gray-600">
+      <div className="font-bold uppercase text-gray-300">
+        <h2 className="sr-only">Customer testimonials</h2>
         Loved by hundreds who hate waiting
       </div>
       <div>
