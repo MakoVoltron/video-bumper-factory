@@ -46,8 +46,11 @@ model User {
 model TemplatePreview {
     id String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
 
-    title    String
-    category String
+    slug String? @unique
+
+    title       String
+    category    String
+    description String?
 
     posterUrl      String
     posterPublicId String
