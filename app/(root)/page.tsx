@@ -12,6 +12,7 @@ import Button from "@/components/ui/Button";
 
 import TemplateList from "@/components/TemplateList";
 import FAQAccordion from "@/components/FAQAccordion";
+import Footer from "@/components/Footer";
 
 export default async function Home() {
   return (
@@ -46,6 +47,7 @@ export default async function Home() {
       <Section>
         <FAQAccordion />
       </Section>
+      <Footer />
     </>
   );
 }
