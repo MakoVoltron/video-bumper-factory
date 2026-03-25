@@ -31,6 +31,7 @@ export type UploadedMedia = {
 
 type UpdatedData = {
   title: string;
+  description: string;
   category: string;
   posterUrl?: string;
   posterPublicId?: string;
@@ -115,6 +116,7 @@ export async function PUT(req: Request) {
 
   const id = formData.get("videoId") as string;
   const title = formData.get("title") as string;
+  const description = formData.get("description") as string;
   const category = formData.get("category") as string;
   const posterFile = formData.get("poster") as File | null;
   const videoFile = formData.get("video") as File | null;
@@ -134,6 +136,7 @@ export async function PUT(req: Request) {
   const updatedData: UpdatedData = {
     title,
     category,
+    description,
   };
 
   try {

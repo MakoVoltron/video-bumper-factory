@@ -2,7 +2,7 @@
 
 import { axiosClient } from "@/lib/axios";
 import { endpoint, product, route } from "@/lib/constants";
-import { Template } from "@/types/video";
+import { CheckoutTemplate } from "@/types/video";
 import { useEffect, useState } from "react";
 import {
   PaymentElement,
@@ -61,7 +61,7 @@ const StripeFormInner = ({ onError }: StripeCheckoutFormProps) => {
     <form onSubmit={handleSubmit} className="space-y-2 z-100">
       <div>
         <input
-          className="p-3 border border-gray-200 rounded-md w-full bg-white"
+          className="p-3 border border-gray-200 rounded-md w-full bg-white text-black"
           type="email"
           placeholder="Your email"
           value={email}
@@ -91,7 +91,7 @@ const StripeFormInner = ({ onError }: StripeCheckoutFormProps) => {
   );
 };
 
-const StripeCheckoutForm = ({ template }: { template: Template }) => {
+const StripeCheckoutForm = ({ template }: { template: CheckoutTemplate }) => {
   const [clientSecret, setClientSecret] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 

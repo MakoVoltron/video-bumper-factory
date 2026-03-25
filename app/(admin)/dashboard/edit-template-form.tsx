@@ -9,6 +9,7 @@ type EditTemplateFormProps = {
   template: {
     id: string;
     title: string;
+    description: string;
     category: CategoryLabels;
     posterUrl: string;
     videoUrl: string;
@@ -22,7 +23,6 @@ const EditTemplateForm = ({
   template,
   onSuccess,
   onError,
-  modal,
 }: EditTemplateFormProps) => {
   const { mutateAsync, isPending } = useUpdateTemplate();
 
@@ -32,6 +32,7 @@ const EditTemplateForm = ({
       isSubmitting={isPending}
       initialValues={{
         title: template.title,
+        description: template.description,
         category: template.category,
         posterUrl: template.posterUrl,
         videoUrl: template.videoUrl,
@@ -39,6 +40,7 @@ const EditTemplateForm = ({
       modal
       onSubmit={async ({
         title,
+        description,
         category,
         posterFile,
         videoFile,
@@ -48,6 +50,7 @@ const EditTemplateForm = ({
         formData.append("videoId", template.id);
         formData.append("title", title);
         formData.append("category", category);
+        formData.append("description", description);
 
         if (posterFile) formData.append("poster", posterFile);
         if (videoFile) formData.append("video", videoFile);

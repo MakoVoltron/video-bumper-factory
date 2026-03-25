@@ -18,14 +18,17 @@ import EditTemplateForm from "@/app/(admin)/dashboard/edit-template-form";
 import dynamic from "next/dynamic";
 import Spinner from "./ui/Spinner";
 
-const StripeCheckoutForm = dynamic(() => import("./StripeCheckoutForm"), {
-  ssr: false,
-  loading: () => (
-    <div className="flex justify-center py-8">
-      <Spinner />
-    </div>
-  ),
-});
+export const StripeCheckoutForm = dynamic(
+  () => import("./StripeCheckoutForm"),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="flex justify-center py-8">
+        <Spinner />
+      </div>
+    ),
+  },
+);
 
 export type TemplateContext = {
   id: string;

@@ -4,6 +4,8 @@ import { CategoryLabels } from "@/app/(admin)/dashboard/add-template-form";
 
 export type Template = z.infer<typeof addNewTemplateSchema> & {
   id: string;
+  slug: string;
+  description: string;
   createdAt: Date;
   category: CategoryLabels;
 };
@@ -16,6 +18,8 @@ export type VideoAction = {
 };
 
 export type VideoMode = "hover" | "loop";
+
+export type CheckoutTemplate = Pick<Template, "id" | "title">;
 
 export type VideoPreviewProps = Pick<Template, "posterUrl" | "videoUrl"> & {
   id?: string;

@@ -3,6 +3,8 @@ import { z } from "zod";
 // Schema for adding templates
 export const addNewTemplateSchema = z.object({
   title: z.string().min(3, "Title must be at least 3 characters"),
+  slug: z.string(),
+  description: z.string(),
   posterUrl: z.string(),
   posterPublicId: z.string(),
   videoUrl: z.string(),

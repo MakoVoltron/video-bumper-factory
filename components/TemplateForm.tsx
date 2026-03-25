@@ -10,13 +10,13 @@ import Button from "./ui/Button";
 import Image from "next/image";
 import Video from "./ui/Video";
 import { VideoMode } from "@/types/video";
-import { redirect } from "next/navigation";
 
 type UploadStatus = "idle" | "uploading" | "success" | "error";
 
 type TemplateFormProps = {
   initialValues?: {
     title: string;
+    description: string;
     category: CategoryLabels;
     posterUrl?: string;
     videoUrl?: string;
@@ -27,6 +27,7 @@ type TemplateFormProps = {
   isSubmitting?: boolean;
   onSubmit: (args: {
     title: string;
+    description: string;
     category: CategoryLabels;
     posterFile?: File | null;
     videoFile?: File | null;
@@ -42,6 +43,10 @@ const TemplateForm = ({
   onSubmit,
 }: TemplateFormProps) => {
   const [title, setTitle] = useState(initialValues?.title ?? "");
+  const [description, setDescription] = useState(
+    initialValues?.description ?? "",
+  );
+
   const [category, setCategory] = useState<CategoryLabels>(
     initialValues?.category ?? CATEGORY_TYPE[0].label,
   );
@@ -60,7 +65,7 @@ const TemplateForm = ({
   const [progress, setProgress] = useState(0);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
+    const file = e.currentTarget.files?.[0];
     if (!file) return;
 
     if (file.type.startsWith("video/")) {
@@ -82,6 +87,7 @@ const TemplateForm = ({
         category,
         posterFile,
         videoFile,
+        description,
         onProgress: setProgress,
       });
       setStatus("success");
@@ -114,6 +120,17 @@ const TemplateForm = ({
                 placeholder="Template name"
                 value={title}
               />
+            </div>
+            <div className="col-span-12">
+              <textarea
+                onChange={(e) => setDescription(e.target.value)}
+                name="description"
+                placeholder="Description"
+                className="w-full border rounded resize-none p-3"
+                rows={3}
+              >
+                {description}
+              </textarea>
             </div>
             <div className="col-span-6">
               <Input
