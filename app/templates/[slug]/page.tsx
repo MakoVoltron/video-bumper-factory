@@ -3,7 +3,6 @@ import { APP } from "@/lib/constants";
 import { prisma } from "@/lib/db/client";
 import { cache } from "react";
 import { redirect } from "next/navigation";
-import StripeCheckoutForm from "@/components/StripeCheckoutForm";
 import Link from "next/link";
 import TemplateCheckoutTrigger from "@/components/ui/TemplateCheckoutTrigger";
 
