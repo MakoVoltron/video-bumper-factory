@@ -126,10 +126,11 @@ const TemplateForm = ({
                 onChange={(e) => setDescription(e.target.value)}
                 name="description"
                 placeholder="Description"
+                value={description}
                 className="w-full border rounded resize-none p-3"
                 rows={3}
               >
-                {description}
+                {/* {description} */}
               </textarea>
             </div>
             <div className="col-span-6">

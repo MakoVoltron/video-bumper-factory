@@ -17,6 +17,7 @@ const AddTemplateForm = () => {
       isSubmitting={isPending}
       onSubmit={async ({
         title,
+        description,
         category,
         posterFile,
         videoFile,
@@ -29,6 +30,7 @@ const AddTemplateForm = () => {
         formData.append("category", category);
         formData.append("poster", posterFile);
         formData.append("video", videoFile);
+        formData.append("description", description);
 
         await mutateAsync({ formData, onProgress });
 

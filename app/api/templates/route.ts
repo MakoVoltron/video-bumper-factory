@@ -8,6 +8,7 @@ import { params } from "@/lib/constants";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import getCloudinary from "@/lib/upload/cloudinary";
+import { uniqueSlug } from "@/lib/helpers/generateSlug";
 
 export async function GET(req: Request) {
   const url = new URL(req.url);
@@ -45,6 +46,7 @@ export async function POST(req: Request) {
   const formData = await req.formData();
 
   const title = formData.get("title") as string;
+  const description = formData.get("description") as string;
   const category = formData.get("category") as string;
   const poster = formData.get("poster") as File;
   const video = formData.get("video") as File;
@@ -69,9 +71,13 @@ export async function POST(req: Request) {
 
     if (!uploaded.poster || !uploaded.video) return;
 
+    const slug = await uniqueSlug(title);
+
     const template = await prisma.templatePreview.create({
       data: {
         title,
+        slug,
+        description,
         category,
         posterUrl: uploaded.poster.secure_url,
         posterPublicId: uploaded.poster.public_id,
