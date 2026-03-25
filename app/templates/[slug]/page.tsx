@@ -1,4 +1,24 @@
+import { APP } from "@/lib/constants";
 import { prisma } from "@/lib/db/client";
+import { cache } from "react";
+
+const getTemplateBySlug = cache((slug: string) =>
+  prisma.templatePreview.findUnique({ where: { slug } }),
+);
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = await params;
+  const template = await getTemplateBySlug(slug);
+  if (!template) return { title: "Template not found" };
+  return {
+    title: template.title ?? APP.NAME,
+    description: template.description ?? APP.DESCRIPTION,
+  };
+}
 
 export default async function TemplatePage({
   params,
@@ -7,9 +27,7 @@ export default async function TemplatePage({
 }) {
   const { slug } = await params;
 
-  const template = await prisma.templatePreview.findUnique({
-    where: { slug },
-  });
+  const template = await getTemplateBySlug(slug);
 
   return (
     <div>
