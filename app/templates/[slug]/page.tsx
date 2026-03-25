@@ -5,6 +5,7 @@ import { cache } from "react";
 import { redirect } from "next/navigation";
 import StripeCheckoutForm from "@/components/StripeCheckoutForm";
 import Link from "next/link";
+import TemplateCheckoutTrigger from "@/components/ui/TemplateCheckoutTrigger";
 
 const getTemplateBySlug = cache((slug: string) =>
   prisma.templatePreview.findUnique({ where: { slug } }),
@@ -43,9 +44,9 @@ export default async function TemplatePage({
 
   return (
     <div className="max-w-5xl space-y-3">
-      <div className="border rounded-md bg-gray-900/50 p-6">
+      <div className="lg:border border-purple-900 rounded-md bg-gray-900/50 p-6">
         <div className="grid grid-cols-12 gap-2">
-          <div className="col-span-8 space-y-2">
+          <div className="col-span-12 md:col-span-8 space-y-2">
             <div className="rounded overflow-hidden">
               <Video
                 posterUrl={template.posterUrl}
@@ -57,17 +58,17 @@ export default async function TemplatePage({
 
             <p>{template?.description}</p>
           </div>
-          <div className="col-span-4">
-            <StripeCheckoutForm template={template} />
+          <div className="col-span-12 md:col-span-4">
+            <TemplateCheckoutTrigger template={template} />
           </div>
         </div>
       </div>
 
-      <div className="space-y-1">
+      <div className="space-y-1 p-6 lg:p-0">
         <h3 className="text-md font-bold">You might also like</h3>
         <div className="grid grid-cols-12 gap-2">
           {similarTemplates.map((template) => (
-            <div key={template.id} className="col-span-4">
+            <div key={template.id} className="col-span-12 md:col-span-4">
               <Link href={`/templates/${template.slug}`}>
                 <Video
                   posterUrl={template.posterUrl}

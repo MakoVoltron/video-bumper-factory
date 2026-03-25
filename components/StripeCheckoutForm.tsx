@@ -58,7 +58,7 @@ const StripeFormInner = ({ onError }: StripeCheckoutFormProps) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-2 z-100">
+    <form onSubmit={handleSubmit} className="space-y-2 z-100 w-full">
       <div>
         <input
           className="p-3 border border-gray-200 rounded-md w-full bg-white text-black"
