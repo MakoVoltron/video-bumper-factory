@@ -2,13 +2,11 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import localFont from "next/font/local";
+import { Suspense } from "react";
 import { APP } from "../lib/constants";
-import { headers } from "next/headers";
-import { auth } from "@/lib/auth";
 import { ToastContainer } from "react-toastify";
 import AuthToast from "@/components/helpers/AuthToast";
 import Providers from "./providers";
-import AdminNavbar from "@/components/admin/AdminNavbar";
 import { AdminProvider } from "@/lib/context/AdminContext";
 
 const geistSans = Geist({
@@ -77,28 +75,29 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
-
-  const isAdmin = session?.user.role === "ADMIN";
-
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${headlineFont.variable} antialiased`}
       >
         <Providers>
-          <AdminProvider value={{ isAdmin }}>
+          {/*
+            isAdmin is hard-coded false here so the public site renders
+            statically (no per-request session lookup). Admin UI lives in the
+            dashboard segment layout, which overrides this with isAdmin=true.
+          */}
+          <AdminProvider value={{ isAdmin: false }}>
             <main className="flex flex-col md:min-h-screen justify-center items-center  font-sans bg-black ">
-              {session && <AdminNavbar />}
-
-              <AuthToast />
+              {/* AuthToast reads useSearchParams; the Suspense boundary keeps
+                  the rest of the page statically renderable. */}
+              <Suspense fallback={null}>
+                <AuthToast />
+              </Suspense>
               {children}
               <ToastContainer />
             </main>

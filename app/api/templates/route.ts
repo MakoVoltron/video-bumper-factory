@@ -1,5 +1,3 @@
-export const dynamic = "force-dynamic";
-
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db/client";
 import { uploadToCloudinary } from "@/lib/helpers/uploadToCloudinary";
@@ -7,8 +5,25 @@ import type { UploadApiResponse } from "cloudinary";
 import { params } from "@/lib/constants";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
+import { revalidatePath, revalidateTag, unstable_cache } from "next/cache";
 import getCloudinary from "@/lib/upload/cloudinary";
 import { uniqueSlug } from "@/lib/helpers/generateSlug";
+
+const getCachedTemplates = (
+  category: string | null,
+  limit: number,
+  offset: number,
+) =>
+  unstable_cache(
+    () =>
+      prisma.templatePreview.findMany({
+        take: limit,
+        skip: offset,
+        where: category ? { category } : undefined,
+      }),
+    ["templates", category ?? "all", String(limit), String(offset)],
+    { revalidate: 86400, tags: ["templates"] },
+  )();
 
 export async function GET(req: Request) {
   const url = new URL(req.url);
@@ -16,11 +31,7 @@ export async function GET(req: Request) {
   const limit = Number(url.searchParams.get(params.LIMIT) ?? 4);
   const offset = Number(url.searchParams.get(params.OFFSET) ?? 0);
 
-  const templates = await prisma.templatePreview.findMany({
-    take: limit,
-    skip: offset,
-    where: category ? { category } : undefined,
-  });
+  const templates = await getCachedTemplates(category, limit, offset);
 
   return new Response(JSON.stringify(templates), { status: 200 });
 }
@@ -85,6 +96,11 @@ export async function POST(req: Request) {
         videoPublicId: uploaded.video.public_id,
       },
     });
+
+    // Bust the cached template lists/sitemap and the new detail page so the
+    // create shows up immediately instead of waiting for the revalidate window.
+    revalidateTag("templates");
+    revalidatePath(`/templates/${template.slug}`);
 
     return NextResponse.json(template);
   } catch (error) {
@@ -170,6 +186,11 @@ export async function PUT(req: Request) {
       where: { id },
       data: updatedData,
     });
+
+    // Bust the cached template lists/sitemap and this template's detail page
+    // so admin edits are reflected immediately.
+    revalidateTag("templates");
+    revalidatePath(`/templates/${updated.slug}`);
 
     return NextResponse.json(updated);
   } catch (error) {

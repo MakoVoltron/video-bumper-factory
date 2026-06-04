@@ -3,6 +3,7 @@
 import { auth } from "@/lib/auth";
 import { prisma } from "../db/client";
 import { headers } from "next/headers";
+import { revalidatePath, revalidateTag } from "next/cache";
 import getCloudinary from "../upload/cloudinary";
 
 export async function deleteTemplate(videoId: string) {
@@ -23,6 +24,7 @@ export async function deleteTemplate(videoId: string) {
     resource_type: "video",
   });
 
-  console.log("template to be deleted");
-  console.log(template);
+  // Bust the cached template lists/sitemap and the deleted detail page.
+  revalidateTag("templates");
+  revalidatePath(`/templates/${template.slug}`);
 }

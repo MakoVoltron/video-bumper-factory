@@ -8,6 +8,15 @@ export const auth = betterAuth({
   advanced: { database: { generateId: false } },
   emailAndPassword: { enabled: true, minPasswordLength: 6, autoSignIn: true },
 
+  // Cache the session in a signed cookie so repeated session checks (dashboard
+  // layout, admin write handlers) don't hit the DB on every request.
+  session: {
+    cookieCache: {
+      enabled: true,
+      maxAge: 5 * 60,
+    },
+  },
+
   user: {
     additionalFields: {
       role: {

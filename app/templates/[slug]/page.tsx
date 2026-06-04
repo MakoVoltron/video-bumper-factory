@@ -6,9 +6,22 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import TemplateCheckoutTrigger from "@/components/ui/TemplateCheckoutTrigger";
 
+// Re-generate at most once a day via ISR; combined with generateStaticParams
+// below this makes the page SSG/ISR instead of dynamic, so crawlers hit the
+// cache rather than the DB on every request.
+export const revalidate = 86400;
+
 const getTemplateBySlug = cache((slug: string) =>
   prisma.templatePreview.findUnique({ where: { slug } }),
 );
+
+export async function generateStaticParams() {
+  const templates = await prisma.templatePreview.findMany({
+    select: { slug: true },
+  });
+
+  return templates.map((template) => ({ slug: template.slug }));
+}
 
 export async function generateMetadata({
   params,
